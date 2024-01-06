@@ -7,6 +7,13 @@ nnoremap <C-A-f> :Telescope live_grep cwd=%:p:h<CR>
 nnoremap <leader>n :NERDTreeFocus<CR>
 nnoremap <C-b> :NvimTreeToggle<CR>
 nnoremap <C-s> :lua require'nvim-tree.api'.tree.change_root_to_parent()<CR>
+" Ir a la definición
+nnoremap <F12> :call CocActionAsync('jumpDefinition')<CR>
+" Ir a la implementación
+nnoremap <leader>i :call CocActionAsync('jumpImplementation')<CR>
+" Ver referencias
+nnoremap <leader>r :call CocActionAsync('jumpReferences')<CR>
+
 
 " Numbered line
 set number
@@ -50,12 +57,6 @@ set formatoptions-=cro
 
 " Wrap text
 set whichwrap+=b,s,h,l,<,>,[,],~
-
-" autochange working directory
-set autochdir
-
-" terminal buffer
-set modifiable
 
 " Plugin Manager (vim-plug):
 
@@ -121,6 +122,12 @@ let g:airline_section_b = '%{expand("%:t")}'
 let g:airline_section_x = airline#section#create(['%{airline#extensions#branch#get_head()}'])
 let g:airline_section_y = '%y %m'
 let g:airline_section_z = '%l:%v'
+" Habilitar la integración de Airline con coc.nvim
+let g:airline#extensions#coc#enabled = 1
+" Configurar cómo se muestra la información de diagnóstico
+let g:airline#extensions#coc#error_symbol = 'E:'
+let g:airline#extensions#coc#warning_symbol = 'W:'
+
 
 " gitsigns setup
 lua << EOF
