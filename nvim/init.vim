@@ -54,9 +54,30 @@ set whichwrap+=b,s,h,l,<,>,[,],~
 " autochange working directory
 set autochdir
 
-" Plugin Manager (vim-plug)
-"
-call plug#begin('~/.local/share/nvim/plugged')
+" terminal buffer
+set modifiable
+
+" Plugin Manager (vim-plug):
+
+" Install vimplug if it's not already
+let data_dir = has('nvim') ? stdpath('data') . '/site' : '~/.vim'
+if empty(glob(data_dir . '/autoload/plug.vim'))
+  silent execute '!curl -fLo '.data_dir.'/autoload/plug.vim --create-dirs  https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+  autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
+endif
+
+" Install vim-plug if not found
+if empty(glob('~/.vim/autoload/plug.vim'))
+  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+endif
+
+" Run PlugInstall if there are missing plugins
+autocmd VimEnter * if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
+  \| PlugInstall --sync | source $MYVIMRC
+\| endif
+
+call plug#begin()
 
 Plug 'catppuccin/nvim', { 'as': 'frappe' }
 Plug 'preservim/nerdcommenter'
@@ -72,10 +93,9 @@ Plug 'lewis6991/gitsigns.nvim'
 Plug 'nvim-tree/nvim-tree.lua'
 Plug 'nvim-tree/nvim-web-devicons'
 
-
 call plug#end()
 
-" Comment plugin config need
+"" Comment plugin config need
 filetype plugin on
 
 " treesitter configuration
