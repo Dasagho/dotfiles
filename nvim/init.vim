@@ -7,13 +7,38 @@ nnoremap <C-A-f> :Telescope live_grep cwd=%:p:h<CR>
 nnoremap <leader>n :NERDTreeFocus<CR>
 nnoremap <C-b> :NvimTreeToggle<CR>
 nnoremap <C-s> :lua require'nvim-tree.api'.tree.change_root_to_parent()<CR>
-" Ir a la definición
-nnoremap <F12> :call CocActionAsync('jumpDefinition')<CR>
-" Ir a la implementación
-nnoremap <leader>i :call CocActionAsync('jumpImplementation')<CR>
-" Ver referencias
-nnoremap <leader>r :call CocActionAsync('jumpReferences')<CR>
 
+noremap <leader>s :CocSearch 
+noremap <leader>tv :botright vnew <Bar> :terminal<cr>
+noremap <leader>th :botright new <Bar> :terminal<cr>
+
+" Highlight matching search patterns
+set hlsearch
+" Enable incremental search
+set incsearch
+" Include matching uppercase words with lowercase search term
+set ignorecase
+" Include only uppercase words with uppercase search term
+set smartcase
+
+set matchpairs+=<:>
+
+
+nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gy <Plug>(coc-type-definition)
+nmap <silent> gi <Plug>(coc-implementation)
+nmap <silent> gr <Plug>(coc-references)
+map <C-j> <C-W>j
+map <C-k> <C-W>k
+map <C-h> <C-W>h
+map <C-l> <C-W>l
+" Terminal exit mapping
+:tnoremap <Esc> <C-\><C-n>
+" Open terminal mapping
+
+:imap ii <Esc>
+
+inoremap <silent><expr> <c-space> coc#refresh()
 
 " Numbered line
 set number

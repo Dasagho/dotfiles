@@ -1,4 +1,9 @@
 {
   "eslint.autoFixOnSave": true, // Habilita la corrección automática al guardar
   "eslint.run": "onSave",       // Ejecuta ESLint al guardar
+  "diagnostic.messageTarget": "float",
+  "diagnostic.checkCurrentLine": true,
+  "diagnostic.virtualText": true,
+  "diagnostic.virtualTextCurrentLineOnly": false,
+  "diagnostic.virtualTextPrefix": "#"
 }
