@@ -10,6 +10,16 @@ lsp.on_attach(function(client, bufnr)
 	vim.keymap.set("n", "<leader>m", vim.diagnostic.goto_prev, opts)
 end)
 
+lsp.format_on_save({
+	format_opts = {
+		async = false,
+		timeout_ms = 10000,
+	},
+	servers = {
+		["gopls"] = {"golang"},
+	}
+})
+
 require("mason").setup({})
 require("mason-lspconfig").setup({
 	ensure_installed = {
@@ -17,73 +27,10 @@ require("mason-lspconfig").setup({
 		'eslint',
 		'lua_ls',
 		'gopls',
-		'intelephense',
 		'html',
 		'cssls',
 	},
 	handlers = {
 		lsp.default_setup,
-		intelephense = function()
-			require('lspconfig').intelephense.setup({
-				settings = {
-       				 intelephense = {
-       				     stubs = {
-       				         "bcmath",
-       				         "bz2",
-       				         "Core",
-       				         "curl",
-       				         "date",
-       				         "dom",
-       				         "fileinfo",
-       				         "filter",
-       				         "gd",
-       				         "gettext",
-       				         "hash",
-       				         "iconv",
-       				         "imap",
-       				         "intl",
-       				         "json",
-       				         "libxml",
-       				         "mbstring",
-       				         "mcrypt",
-       				         "mysql",
-       				         "mysqli",
-       				         "password",
-       				         "pcntl",
-       				         "pcre",
-       				         "PDO",
-       				         "pdo_mysql",
-       				         "Phar",
-       				         "readline",
-       				         "regex",
-       				         "session",
-       				         "SimpleXML",
-       				         "sockets",
-       				         "sodium",
-       				         "standard",
-       				         "superglobals",
-       				         "tokenizer",
-       				         "xml",
-       				         "xdebug",
-       				         "xmlreader",
-       				         "xmlwriter",
-       				         "yaml",
-       				         "zip",
-       				         "zlib",
-       				         "wordpress-stubs",
-       				         "woocommerce-stubs",
-       				         "acf-pro-stubs",
-       				         "wordpress-globals",
-       				         "wp-cli-stubs",
-       				         "genesis-stubs",
-       				         "polylang-stubs"
-       				     },
-				     files = {
-					     maxSize = 5000000
-				     };
-			     };
-		     }
-		})
-	end,
 	}
 })
