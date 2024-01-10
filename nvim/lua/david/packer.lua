@@ -4,7 +4,6 @@ vim.cmd.packadd('packer.nvim')
 return require('packer').startup(function(use)
 	-- Packer can manage itself
 	use 'wbthomason/packer.nvim'
-	
 	use { "catppuccin/nvim", as = "catppuccin" }
 	use {
 	  	'nvim-telescope/telescope.nvim',
@@ -20,7 +19,6 @@ return require('packer').startup(function(use)
 		  --- and read this: https://github.com/VonHeikemen/lsp-zero.nvim/blob/v3.x/doc/md/guides/integrate-with-mason-nvim.md
 		  {'williamboman/mason.nvim'},
 		  {'williamboman/mason-lspconfig.nvim'},
-		
 		  -- LSP Support
 		  {'neovim/nvim-lspconfig'},
 		  -- Autocompletion
@@ -29,6 +27,9 @@ return require('packer').startup(function(use)
 		  {'L3MON4D3/LuaSnip'},
 		}
 	}
+	use {
+		"nvim-telescope/telescope-file-browser.nvim",
+		requires = { "nvim-telescope/telescope.nvim", "nvim-lua/plenary.nvim" }
+	}
 
-	
 end)
