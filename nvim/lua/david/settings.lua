@@ -24,7 +24,6 @@ vim.opt.clipboard = "unnamedplus"
 
 -- Undo history
 vim.opt.undofile = true
-vim.opt.undodir = ".config/nvim/undo"
 
 -- Indentation
 vim.opt.autoindent = true
