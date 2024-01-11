@@ -1,0 +1,25 @@
+[user]
+	email = damirsa2001@gmail.com
+	name = David
+[init]
+	defaultBranch = main
+[safe]
+	directory = /home/david/.cache/paru/clone/auto-cpufreq/src/opt/auto-cpufreq/
+[alias]
+	st = status
+    	ci = commit
+    	br = branch
+    	co = checkout
+    	df = diff
+    	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
+[core]
+	editor = vim
+[diff]
+	tool = vimdiff
+[merge]
+	tool = vimdiff
+	conflictstyle = diff3
+[color]
+	ui = true
+[help]
+	autocorrect = 1
