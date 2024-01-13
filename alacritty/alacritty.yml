@@ -557,6 +557,64 @@ schemes:
       cyan:    '#54ced6'
       white:   '#282a2e'
 
+  ### Tomorrow Night ###
+  GoogleDark: &GoogleDark
+   # Default colors
+       primary:
+        background: '#1d1f21'
+        foreground: '#c5c8c6'
+    
+        # Normal colors
+        normal:
+          black:   '0x1d1f21'
+          red:     '0xcc342b'
+          green:   '0x198844'
+          yellow:  '0xfba922'
+          blue:    '0x3971ed'
+          magenta: '0xa36ac7'
+          cyan:    '0x3971ed'
+          white:   '0xc5c8c6'
+
+        # Bright colors
+        bright:
+          black:   '0x969896'
+          red:     '0xcc342b'
+          green:   '0x198844'
+          yellow:  '0xfba922'
+          blue:    '0x3971ed'
+          magenta: '0xa36ac7'
+          cyan:    '0x3971ed'
+          white:   '0xffffff'
+
+  TomorrowDark: &TomorrowDark
+      # Default colors
+      primary:
+        background: '0x1d1f21'
+        foreground: '0xc5c8c6'
+
+      # Normal colors
+      normal:
+        black:   '0x1d1f21'
+        red:     '0xcc6666'
+        green:   '0xb5bd68'
+        yellow:  '0xf0c674'
+        blue:    '0x81a2be'
+        magenta: '0xb294bb'
+        cyan:    '0x8abeb7'
+        white:   '0xc5c8c6'
+
+      # Bright colors
+      bright:
+        black:   '0x969896'
+        red:     '0xcc6666'
+        green:   '0xb5bd68'
+        yellow:  '0xf0c674'
+        blue:    '0x81a2be'
+        magenta: '0xb294bb'
+        cyan:    '0x8abeb7'
+        white:   '0xffffff'
+
+
 ######################################################################
 ## SET THEME: Choose ONE color scheme from those in the above list. ##
 ## ###################################################################
@@ -572,7 +630,7 @@ schemes:
 # *SolarizedDark
 # *TomorrowNight
 
-colors: *GruvboxDark 
+colors: *Dracula
 
 # Visual Bell
 #
