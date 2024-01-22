@@ -1,4 +1,18 @@
 local lsp = require("lsp-zero")
+local mason = require("mason")
+local mlspconfig = require("mason-lspconfig")
+local cmp = require("cmp")
+local cmp_action = require("lsp-zero").cmp_action()
+
+cmp.setup({
+		mapping = cmp.mapping.preset.insert({
+				['<Tab>'] = cmp_action.tab_complete(),
+				['<S-Tab>'] = cmp_action.select_prev_or_fallback(),
+				['<C-Space>'] = cmp.mapping.complete(),
+
+		})
+})
+
 lsp.on_attach(function(client, bufnr)
 	lsp.default_keymaps({buffer = bufnr})
 
@@ -20,8 +34,8 @@ lsp.format_on_save({
 	}
 })
 
-require("mason").setup({})
-require("mason-lspconfig").setup({
+mason.setup({})
+mlspconfig.setup({
 	ensure_installed = {
 		'tsserver',
 		'eslint',

@@ -9,6 +9,8 @@ vim.opt.signcolumn = 'yes'
 -- change working directory
 vim.opt.autochdir = false
 
+-- Tab size
+vim.opt.shiftwidth = 4
 -- Better search
 vim.opt.hlsearch = true
 vim.opt.ignorecase = true
@@ -37,7 +39,7 @@ vim.opt.wildmenu = true
 vim.o.formatoptions = "jqlt"
 
 -- Wrap secctions
-vim.o.whichwrap = "b,s,<,>,[,]"
+vim.o.whichwrap = "b,s,<,>,[,],h,l"
 
 -- Highlight groups
 vim.o.termguicolors = true
