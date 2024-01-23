@@ -19,3 +19,7 @@ vim.keymap.set("n", "<leader>th", ":botright new <Bar> :terminal<CR>", opts)
 -- Undo Redo
 vim.keymap.set("n", "<C-z>", ":undo<CR>", opts)
 vim.keymap.set("n", "<C-A-z>", ":redo<CR>", opts)
+
+-- Fold Open
+vim.keymap.set("n", "<leader>-", ":foldclose<CR>", opts)
+vim.keymap.set("n", "<leader>+", ":foldopen<CR>", opts)
