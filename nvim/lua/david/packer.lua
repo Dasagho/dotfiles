@@ -34,4 +34,5 @@ return require('packer').startup(function(use)
 	})
 	use({ "iamcco/markdown-preview.nvim", run = "cd app && npm install", setup = function() vim.g.mkdp_filetypes = { "markdown" } end, ft = { "markdown" }, })
 	use({ "esensar/nvim-dev-container" })
+	use {'kevinhwang91/nvim-ufo', requires = 'kevinhwang91/promise-async'}
 end)
