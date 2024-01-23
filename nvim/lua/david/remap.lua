@@ -23,3 +23,7 @@ vim.keymap.set("n", "<C-A-z>", ":redo<CR>", opts)
 -- Fold Open
 vim.keymap.set("n", "<leader>-", ":foldclose<CR>", opts)
 vim.keymap.set("n", "<leader>+", ":foldopen<CR>", opts)
+
+-- Buffers navigation
+vim.keymap.set("n", "<leader><Left>", ":tabPrev<CR>", opts)
+vim.keymap.set("n", "<leader><Right>", ":tabNext<CR>", opts)
