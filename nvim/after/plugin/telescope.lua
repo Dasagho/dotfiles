@@ -17,5 +17,6 @@ telescope.setup {
 }
 
 vim.keymap.set("n", "<C-p>", builtin.find_files, {})
-vim.keymap.set("n", "<C-f>", builtin.live_grep, {})
-vim.keymap.set("n", "<C-r>", builtin.grep_string, {})
+vim.keymap.set("n", "<C-f>", builtin.grep_string, {})
+vim.keymap.set("n", "<C-A-f>", builtin.live_grep, {})
+
