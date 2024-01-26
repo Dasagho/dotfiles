@@ -1,3 +1,2 @@
-require("david.packer")
-require("david.settings")
-require("david.remap")
+-- bootstrap lazy.nvim, LazyVim and your plugins
+require("config.lazy")
