@@ -1,6 +1,10 @@
 return {
   "neovim/nvim-lspconfig",
   opts = {
-    servers = {},
+    servers = {
+      tsserver = {
+        filetypes = { "typescript", "typescriptreact", "typescript.tsx" },
+      },
+    },
   },
 }
