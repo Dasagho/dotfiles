@@ -5,6 +5,7 @@ return {
       tsserver = {
         filetypes = { "typescript", "typescriptreact", "typescript.tsx" },
       },
+      tailwindcss = {},
     },
   },
 }

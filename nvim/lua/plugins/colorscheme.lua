@@ -1,9 +1,12 @@
-return {
+local colors = {
   "catppuccin/nvim",
+  "olimorris/onedarkpro.nvim",
   {
     "LazyVim/LazyVim",
     opts = {
-      colorscheme = "catppuccin-macchiato",
+      colorscheme = "onedark",
     },
   },
 }
+
+return colors
