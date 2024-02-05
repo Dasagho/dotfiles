@@ -15,6 +15,7 @@ return {
       python = { "autopep8" },
       typescript = { "ts-standard" },
       sql = { "sql_formatter" },
+      go = { "gopls" },
     },
   },
 }
