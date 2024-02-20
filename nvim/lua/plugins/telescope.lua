@@ -2,7 +2,7 @@ return {
   "telescope.nvim",
   opts = {
     defaults = {
-      file_ignore_patterns = { "node_modules" },
+      file_ignore_patterns = { "node_modules", "obj", "bin" },
     },
   },
 }
