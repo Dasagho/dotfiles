@@ -2,12 +2,19 @@ return {
     "williamboman/mason.nvim",
     dependencies = { "williamboman/mason-lspconfig.nvim" },
     build = ":MasonUpdate",
+    keys = { { "<leader>cm", "<cmd>Mason<cr>", desc = "Mason" } },
     cmd = { "Mason", "MasonInstall" },
-    opts = {},
-    config = function()
-        require("mason").setup()
-        require("mason-lspconfig").setup({
-            ensure_installed = { "lua_ls" },
-        })
-    end
+    opts_extend = { "ensure_installed" },
+    opts = {
+        ensure_installed = {
+            "lua-language-server",
+            "typescript-language-server",
+            "docker-compose-language-service",
+            "dockerfile-language-server",
+            "css-lsp",
+            "html-lsp",
+            "json-lsp",
+            "marksman",
+        },
+    },
 }
