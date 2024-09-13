@@ -10,5 +10,3 @@ vim.cmd('nnoremap <silent> <C-j> <C-w>j')
 vim.cmd('nnoremap <silent> <C-k> <C-w>k')
 vim.cmd('nnoremap <silent> <C-l> <C-w>l')
 
--- Navegar entre diagnosticos de proyecto
-map('n', '<leader>ce', ':Telescope diagnostics<CR>', opts)

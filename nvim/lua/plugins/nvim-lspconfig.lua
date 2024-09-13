@@ -54,10 +54,25 @@ return {
         -- Setup language servers.
         local lspconfig = require "lspconfig"
 
-        lspconfig.lua_ls.setup {}
+        lspconfig.phpactor.setup{
+            cmd = { "phpactor", "language-server" },
+            filetypes = { "php" },
+            root_dir = function()
+                return vim.loop.cwd()
+            end,
+            init_options = {
+                ["language_server.diagnostics_on_update"] = false,
+                ["language_server.diagnostics_on_open"] = false,
+                ["language_server.diagnostics_on_save"] = false,
+                ["language_server_phpstan.enabled"] = false,
+                ["language_server_psalm.enabled"] = false,
+            }
+        }
+
+        vim.lsp.set_log_level("debug")
 
         -- setup multiple servers with same default options
-        local servers = { "ts_ls", "html", "cssls", "clangd" }
+        local servers = { "ts_ls", "html", "cssls", "clangd", "lua_ls" }
 
         for _, lsp in ipairs(servers) do
             lspconfig[lsp].setup {
