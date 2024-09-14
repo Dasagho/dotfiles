@@ -13,13 +13,13 @@ return {
         local map = vim.api.nvim_set_keymap
         local opts = { noremap = true, silent = true }
 
-        map('n', '<Leader><Space>', ':Telescope find_files<CR>', { noremap = true, silent = true, desc = "Find files" })
-        map('n', '<Leader>fg', ':Telescope live_grep<CR>', { noremap = true, silent = true, desc = "Find text" })
-        map('n', '<Leader>ff', ':Telescope grep_string<CR>', { noremap = true, silent = true, desc = "Grep string" })
-        map('n', '<leader>ce', ':Telescope diagnostics<CR>', { noremap = true, silent = true, desc = "Find errors" })
-        map('n', '<leader>fr', ':Telescope lsp_references<CR>', { noremap = true, silent = true, desc = "Find references" })
-        map('n', '<leader>fd', ':Telescope lsp_definitions<CR>', { noremap = true, silent = true, desc = "Find definition" })
-        map('n', '<leader>fi', ':Telescope lsp_implementations<CR>', { noremap = true, silent = true, desc = "Find implementations" })
+        map('n', '<Leader><Space>', '<cmd>Telescope find_files<CR>', { noremap = true, silent = true, desc = "Find files" })
+        map('n', '<Leader>fg', '<cmd>Telescope live_grep<CR>', { noremap = true, silent = true, desc = "Find text" })
+        map('n', '<Leader>ff', '<cmd>Telescope grep_string<CR>', { noremap = true, silent = true, desc = "Grep string" })
+        map('n', '<leader>ce', '<cmd>Telescope diagnostics<CR>', { noremap = true, silent = true, desc = "Find errors" })
+        map('n', '<leader>fr', '<cmd>Telescope lsp_references<CR>', { noremap = true, silent = true, desc = "Find references" })
+        map('n', '<leader>fd', '<cmd>Telescope lsp_definitions<CR>', { noremap = true, silent = true, desc = "Find definition" })
+        map('n', '<leader>fi', '<cmd>Telescope lsp_implementations<CR>', { noremap = true, silent = true, desc = "Find implementations" })
 
         require('telescope').setup{
             defaults = {

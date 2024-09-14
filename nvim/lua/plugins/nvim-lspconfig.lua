@@ -1,6 +1,90 @@
 return {
     "neovim/nvim-lspconfig",
-    event = { "BufReadPre", "BufNewFile" },
+    opts = {
+        inlay_hints = { enabled = false },
+        servers = {
+            phpactor = {
+                cmd = { "phpactor", "language-server" },
+                filetypes = { "php" },
+                root_dir = function()
+                    return vim.loop.cwd()
+                end,
+                flags = {
+                    debounce_text_changes = 250, -- Aumenta este valor para reducir la latencia (250ms recomendado)
+                },
+                init_options = {
+                    ["language_server.diagnostics_on_update"] = false,
+                    ["language_server.diagnostics_on_open"] = false,
+                    ["language_server.diagnostics_on_save"] = false,
+                    ["language_server_phpstan.enabled"] = false,
+                    ["language_server_psalm.enabled"] = false,
+                }
+            },
+
+            lua_ls = {
+                settings = {
+                    Lua = {
+                        runtime = {
+                            -- Dile a lua_ls que estás usando LuaJIT (la versión de Lua que Neovim usa)
+                            version = 'LuaJIT',
+                            path = vim.split(package.path, ';'),
+                        },
+                        diagnostics = {
+                            -- Reconoce la variable `vim` como global en el entorno de Neovim
+                            globals = { 'vim' },
+                        },
+                        workspace = {
+                            -- Asegúrate de que el servidor reconozca tu configuración de Neovim
+                            library = vim.api.nvim_get_runtime_file("", true),
+                            checkThirdParty = false,  -- Desactiva advertencias innecesarias
+                        },
+                        telemetry = {
+                            enable = false,  -- Desactiva la recopilación de datos de telemetría
+                        },
+                    },
+                }
+            },
+            html = {},
+            cssls = {},
+            clangd = {},
+            tsserver = {
+                root_dir = function(...)
+						return require("lspconfig.util").root_pattern(".git")(...)
+                end,
+                single_file_support = false,
+                settings = {
+                    typescript = {
+                        inlayHints = {
+                            includeInlayParameterNameHints = "literal",
+                            includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+                            includeInlayFunctionParameterTypeHints = true,
+                            includeInlayVariableTypeHints = false,
+                            includeInlayPropertyDeclarationTypeHints = true,
+                            includeInlayFunctionLikeReturnTypeHints = true,
+                            includeInlayEnumMemberValueHints = true,
+                        },
+                    },
+                    javascript = {
+                        inlayHints = {
+                            includeInlayParameterNameHints = "all",
+                            includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+                            includeInlayFunctionParameterTypeHints = true,
+                            includeInlayVariableTypeHints = true,
+                            includeInlayPropertyDeclarationTypeHints = true,
+                            includeInlayFunctionLikeReturnTypeHints = true,
+                            includeInlayEnumMemberValueHints = true,
+                        },
+                    },
+                },
+            },
+        },
+
+        setup = {
+            tsserver = function(_, opts)
+                require('lspconfig').tsserver.setup(opts)
+            end,
+        },
+    },
     config = function()
         vim.diagnostic.config({
             virtual_text = false,  -- Desactiva el texto en línea para errores y advertencias
@@ -14,71 +98,10 @@ return {
             callback = function(ev)
                 -- Enable completion triggered by <c-x><c-o>
                 vim.bo[ev.buf].omnifunc = "v:lua.vim.lsp.omnifunc"
-
-                vim.keymap.set("n", "<leader>gD", vim.lsp.buf.declaration, { buffer = ev.buf, desc = "go to declaration" })
-                vim.keymap.set("n", "<leader>gd", vim.lsp.buf.definition, { buffer = ev.buf, desc = "go to definition" })
                 vim.keymap.set("n", "<leader>k", vim.lsp.buf.hover, { buffer = ev.buf, desc = "hover" })
-                vim.keymap.set("n", "<leader>gi", vim.lsp.buf.implementation, { buffer = ev.buf, desc = "go to implementation" })
-                vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, { buffer = ev.buf, desc = "signature help" })
-                vim.keymap.set("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, { buffer = ev.buf, desc ="add workspace folder" })
-                vim.keymap.set("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, { buffer = ev.buf, desc = "remove workspace folder" })
-                vim.keymap.set("n", "<leader>wl", function()
-                    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-                end, { buffer = ev.buf, desc = "list workspace folders" })
-                vim.keymap.set("n", "<leader>D", vim.lsp.buf.type_definition, { buffer = ev.buf, desc = "type definition" })
-                vim.keymap.set("n", "<leader>rn", vim.lsp.buf.rename, { buffer = ev.buf, desc = "rename" })
+                vim.keymap.set("n", "<leader>cr", vim.lsp.buf.rename, { buffer = ev.buf, desc = "rename" })
                 vim.keymap.set({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, { buffer = ev.buf, desc = "code action" })
-                vim.keymap.set("n", "<leader>gr", vim.lsp.buf.references, { buffer = ev.buf, desc = "references" })
             end,
         })
-
-        local capabilities = vim.lsp.protocol.make_client_capabilities()
-
-        capabilities.textDocument.completion.completionItem = {
-            documentationFormat = { "markdown", "plaintext" },
-            snippetSupport = true,
-            preselectSupport = true,
-            insertReplaceSupport = true,
-            labelDetailsSupport = true,
-            deprecatedSupport = true,
-            commitCharactersSupport = true,
-            tagSupport = { valueSet = { 1 } },
-            resolveSupport = {
-                properties = {
-                    "documentation",
-                    "detail",
-                    "additionalTextEdits",
-                },
-            },
-        }
-        -- Setup language servers.
-        local lspconfig = require "lspconfig"
-
-        lspconfig.phpactor.setup{
-            cmd = { "phpactor", "language-server" },
-            filetypes = { "php" },
-            root_dir = function()
-                return vim.loop.cwd()
-            end,
-            init_options = {
-                ["language_server.diagnostics_on_update"] = false,
-                ["language_server.diagnostics_on_open"] = false,
-                ["language_server.diagnostics_on_save"] = false,
-                ["language_server_phpstan.enabled"] = false,
-                ["language_server_psalm.enabled"] = false,
-            }
-        }
-
-        vim.lsp.set_log_level("debug")
-
-        -- setup multiple servers with same default options
-        local servers = { "ts_ls", "html", "cssls", "clangd", "lua_ls" }
-
-        for _, lsp in ipairs(servers) do
-            lspconfig[lsp].setup {
-                capabilities = capabilities,
-            }
-        end
-
     end,
 }

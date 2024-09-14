@@ -1,9 +1,9 @@
 return {
     'nvim-treesitter/nvim-treesitter',
-    run = ':TSUpdate',
+    dependencies = { 'catppuccin/nvim' },
     ensure_installed = { "lua", "html", "javascript", "typescript", "css", "tsx", "json" },
-    event = { "VeryLazy" },
-    lazy = vim.fn.argc(-1) == 0, -- load treesitter early when opening a file from the cmdline
+    event = { 'BufRead', 'BufNewFile', "VeryLazy" },
+    lazy = vim.fn.argc(-1) == 0, 
     init = function(plugin)
         -- PERF: add nvim-treesitter queries to the rtp and it's custom query predicates early
         -- This is needed because a bunch of plugins no longer `require("nvim-treesitter")`, which
@@ -18,7 +18,8 @@ return {
         require'nvim-treesitter.configs'.setup {
             highlight = {
                 enable = true,
-                use_languagetree = true,
+                additional_vim_regex_highlighting = false,
+                disable = { "php" },
             },
             indent = { enable = true },
         }
