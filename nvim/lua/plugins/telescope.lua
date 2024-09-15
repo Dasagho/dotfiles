@@ -32,9 +32,8 @@ return {
                     '--line-number',
                     '--column',
                     '--smart-case',
-                    '--hidden',
-                    '--glob', '!.git/',
-                    '--ignore-file', '.gitignore'
+                    '--hidden',  -- Sigue buscando archivos ocultos
+                    '--glob', '!.git/',  -- Excluye el directorio .git
                 },
             },
             extensions = {
