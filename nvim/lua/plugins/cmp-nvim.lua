@@ -37,4 +37,10 @@ return {
     opts = function()
         return require "plugins.configs.cmp"
     end,
+
+    snippet = {
+        expand = function(args)
+            require('luasnip').lsp_expand(args.body)
+        end,
+    },
 }

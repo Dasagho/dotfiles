@@ -22,6 +22,7 @@ return {
         map('n', 'gf', '<cmd>Telescope lsp_definitions<CR>', { noremap = true, silent = true, desc = "Go to file" })
         map('n', '<leader>gi', '<cmd>Telescope lsp_implementations<CR>', { noremap = true, silent = true, desc = "Find implementations" })
         map('n', '<leader>gc', '<cmd>Telescope git_status<CR>', { noremap = true, silent = true, desc = "Git changes" })
+        map('n', '<leader>ff', "<cmd>Telescope find_files default_text=<cword><CR>", { noremap = true, silent = true, desc = "Find file under cursor" })
 
 
         require('telescope').setup{

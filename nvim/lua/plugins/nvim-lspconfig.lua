@@ -1,6 +1,14 @@
 return {
     "neovim/nvim-lspconfig",
     config = function()
+        local lsp_zero = require('lsp-zero')
+
+        lsp_zero.extend_lspconfig({
+            sign_text = true,
+            lsp_attach = lsp_attach,
+            capabilities = require('cmp_nvim_lsp').default_capabilities(),
+        })
+
         local lspconfig = require('lspconfig')
 
         vim.diagnostic.config({
@@ -49,7 +57,7 @@ return {
                 return require('lspconfig.util').root_pattern('composer.json', '.git')(vim.fn.getcwd()) or vim.loop.cwd()
             end,
             flags = {
-                debounce_text_changes = 250,
+                debounce_text_changes = 500,
             },
             init_options = {
                 ["language_server_phpstan.enabled"] = false,
@@ -80,6 +88,10 @@ return {
                     },
                 },
             },
+        }
+
+        lspconfig.emmet_ls.setup {
+            filetypes = { 'html', 'css', 'php' },
         }
     end,
 }

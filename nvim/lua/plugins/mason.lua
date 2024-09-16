@@ -4,23 +4,23 @@ return {
     build = ":MasonUpdate",
     keys = { { "<leader>cm", "<cmd>Mason<cr>", desc = "Mason" } },
     cmd = { "Mason", "MasonInstall" },
-    opts_extend = { "ensure_installed" },
-    opts = {
-        ensure_installed = {
-            "lua-language-server",
-            "typescript-language-server",
-            "docker-compose-language-service",
-            "dockerfile-language-server",
-            "css-lsp",
-            "html-lsp",
-            "json-lsp",
-            "marksman",
-        },
-    },
     config = function ()
         require("mason").setup()
         require("mason-lspconfig").setup({
-            ensure_installed = { "phpactor" },
+            ensure_installed = { 
+                "ts_ls",
+                "gopls",
+                "clangd",
+                "emmet_ls",
+                "cssls",
+                "jsonls",
+                "pyright",
+                "marksman",
+                "phpactor",
+                "lua_ls",
+                "dockerls",
+                "docker_compose_language_service",
+            },
             automatic_installation = true,
         })
 
