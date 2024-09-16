@@ -18,7 +18,7 @@ return {
         })
 
         -- Lista de servidores que se configurarán automáticamente
-        local servers = { "html", "cssls", "clangd" }
+        local servers = { "html", "cssls", "clangd", "gopls", "angularls" }
 
         -- Función para configurar los servidores LSP
         for _, server in ipairs(servers) do

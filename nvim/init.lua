@@ -18,6 +18,8 @@ end
 
 vim.opt.rtp:prepend(lazypath)
 
+vim.env.PATH = vim.fn.stdpath("data") .. "/mason/bin:" .. vim.env.PATH
+
 require('lazy').setup('plugins')
 
 vim.cmd.colorscheme "catppuccin"
