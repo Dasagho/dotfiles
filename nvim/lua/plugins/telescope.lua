@@ -13,13 +13,16 @@ return {
         local map = vim.api.nvim_set_keymap
         local opts = { noremap = true, silent = true }
 
-        map('n', '<Leader><Space>', '<cmd>Telescope find_files<CR>', { noremap = true, silent = true, desc = "Find files" })
-        map('n', '<Leader>fg', '<cmd>Telescope live_grep<CR>', { noremap = true, silent = true, desc = "Find text" })
-        map('n', '<Leader>ff', '<cmd>Telescope grep_string<CR>', { noremap = true, silent = true, desc = "Grep string" })
+        map('n', '<leader><Space>', '<cmd>Telescope find_files<CR>', { noremap = true, silent = true, desc = "Find files" })
+        map('n', '<leader>fg', '<cmd>Telescope live_grep<CR>', { noremap = true, silent = true, desc = "Find text" })
+        map('n', '<leader>ff', '<cmd>Telescope grep_string<CR>', { noremap = true, silent = true, desc = "Grep string" })
         map('n', '<leader>ce', '<cmd>Telescope diagnostics<CR>', { noremap = true, silent = true, desc = "Find errors" })
-        map('n', '<leader>fr', '<cmd>Telescope lsp_references<CR>', { noremap = true, silent = true, desc = "Find references" })
-        map('n', '<leader>fd', '<cmd>Telescope lsp_definitions<CR>', { noremap = true, silent = true, desc = "Find definition" })
-        map('n', '<leader>fi', '<cmd>Telescope lsp_implementations<CR>', { noremap = true, silent = true, desc = "Find implementations" })
+        map('n', '<leader>gr', '<cmd>Telescope lsp_references<CR>', { noremap = true, silent = true, desc = "Find references" })
+        map('n', '<leader>gd', '<cmd>Telescope lsp_definitions<CR>', { noremap = true, silent = true, desc = "Find definition" })
+        map('n', 'gf', '<cmd>Telescope lsp_definitions<CR>', { noremap = true, silent = true, desc = "Go to file" })
+        map('n', '<leader>gi', '<cmd>Telescope lsp_implementations<CR>', { noremap = true, silent = true, desc = "Find implementations" })
+        map('n', '<leader>gc', '<cmd>Telescope git_status<CR>', { noremap = true, silent = true, desc = "Git changes" })
+
 
         require('telescope').setup{
             defaults = {
@@ -33,7 +36,7 @@ return {
                     '--column',
                     '--smart-case',
                     '--hidden',  -- Sigue buscando archivos ocultos
-                    '--glob', '!.git/',  -- Excluye el directorio .git
+                    '--glob', '!.git/'
                 },
             },
             extensions = {
