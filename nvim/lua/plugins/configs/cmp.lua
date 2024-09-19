@@ -23,28 +23,27 @@ return {
                 fallback()
             end
         end, {
-        "i",
-        "s",
-    }),
-    ["<S-Tab>"] = cmp.mapping(function(fallback)
-        if cmp.visible() then
-            cmp.select_prev_item()
-        elseif require("luasnip").jumpable(-1) then
-            vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Plug>luasnip-jump-prev", true, true, true), "")
-        else
-            fallback()
-        end
-    end, {
-    "i",
-    "s",
-}),
-  },
-  sources = cmp.config.sources {
-      { name = "nvim_lsp" },
-      { name = "luasnip" },
-      { name = "buffer" },
-      { name = "nvim_lua" },
-      { name = "path" },
-  },
+                "i",
+                "s",
+            }),
+        ["<S-Tab>"] = cmp.mapping(function(fallback)
+            if cmp.visible() then
+                cmp.select_prev_item()
+            elseif require("luasnip").jumpable(-1) then
+                vim.fn.feedkeys(vim.api.nvim_replace_termcodes("<Plug>luasnip-jump-prev", true, true, true), "")
+            else
+                fallback()
+            end
+        end, {
+                "i",
+                "s",
+            }),
+    },
+    sources = cmp.config.sources {
+        { name = "nvim_lsp" },
+        { name = "luasnip" },
+        { name = "buffer" },
+        { name = "nvim_lua" },
+        { name = "path" },
+    },
 }
-

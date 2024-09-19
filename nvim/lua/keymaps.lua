@@ -11,3 +11,5 @@ vim.cmd('nnoremap <silent> <C-k> <C-w>k')
 vim.cmd('nnoremap <silent> <C-l> <C-w>l')
 
 map('n', '<leader>e', "<cmd>lua vim.diagnostic.open_float(nil, { focusable = false, scope = 'line', header = '🔍 LSP Diagnostics', border = 'rounded', source = 'always', prefix = '● ' })<CR>", { noremap = true, silent = true, desc = "show message inline" })
+
+map('n', '<C-t>', 'tabnew', opts)

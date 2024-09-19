@@ -25,17 +25,6 @@ return {
             automatic_installation = true,
         })
 
-        require("mason-lspconfig").setup_handlers({
-            function (server_name) -- Default handler
-                require("lspconfig")[server_name].setup {
-                    flags = {
-                        debounce_text_changes = 250, -- Debounce para reducir latencia
-                    },
-                    capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
-                }
-            end,
-        })
-
         vim.env.PATH = vim.fn.stdpath("data") .. "/mason/bin:" .. vim.env.PATH
     end
 }

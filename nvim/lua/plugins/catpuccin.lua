@@ -15,6 +15,7 @@ return {
                 telescope = true,
                 treesitter = true,
                 cmp = true,
+                fidget = true,
             },
         })
 
