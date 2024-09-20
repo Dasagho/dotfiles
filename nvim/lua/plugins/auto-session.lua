@@ -20,6 +20,11 @@ return {
             pre_save_cmds = {
                 "tabdo Neotree close" -- Close NERDTree before saving session
             },
+            auto_session_suppress_dirs = {
+                '~/',
+                '~/Downloads',
+                '/'
+            }
         })
     end
 }
