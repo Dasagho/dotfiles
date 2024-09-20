@@ -13,3 +13,5 @@ vim.cmd('nnoremap <silent> <C-l> <C-w>l')
 map('n', '<leader>e', "<cmd>lua vim.diagnostic.open_float(nil, { focusable = false, scope = 'line', header = '🔍 LSP Diagnostics', border = 'rounded', source = 'always', prefix = '● ' })<CR>", { noremap = true, silent = true, desc = "show message inline" })
 
 map('n', '<C-t>', 'tabnew', opts)
+
+map('n', '<leader>z', "<cmd> lua vim.wo.wrap = not vim.wo.wrap<CR>", { noremap = true, silent = true, desc = "toggle wrap" })

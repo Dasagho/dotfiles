@@ -3,7 +3,7 @@ return {
     dependencies = { 'Mofiqul/dracula.nvim' },
 
     event = { 'BufRead', 'BufNewFile', "VeryLazy" },
-    lazy = vim.fn.argc(-1) == 0, 
+    lazy = vim.fn.argc(-1) == 0,
     init = function(plugin)
         require("lazy.core.loader").add_to_rtp(plugin)
         require("nvim-treesitter.query_predicates")
@@ -17,12 +17,18 @@ return {
                 additional_vim_regex_highlighting = false,
                 disable = { "php" },
             },
-            indent = { 
+            indent = {
                 enable = true
             },
             autotag = {
                 enable = true,
+            },
+            fold = {
+                enable = true,
             }
         }
+
+        vim.o.foldmethod = 'expr'
+        vim.o.foldexpr = 'nvim_treesitter#foldexpr()'
     end
 }

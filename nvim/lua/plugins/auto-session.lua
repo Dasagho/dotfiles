@@ -15,6 +15,7 @@ return {
     },
     config = function ()
         require('auto-session').setup({
+            auto_session_enable_last_session = false,
             bypass_save_filetypes = { 'alpha', 'dashboard' }, -- or whatever dashboard you use
             pre_save_cmds = {
                 "tabdo Neotree close" -- Close NERDTree before saving session
