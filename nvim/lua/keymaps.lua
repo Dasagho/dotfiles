@@ -15,3 +15,8 @@ map('n', '<leader>e', "<cmd>lua vim.diagnostic.open_float(nil, { focusable = fal
 map('n', '<C-t>', 'tabnew', opts)
 
 map('n', '<leader>z', "<cmd> lua vim.wo.wrap = not vim.wo.wrap<CR>", { noremap = true, silent = true, desc = "toggle wrap" })
+
+map('n', '<leader>mm', "<cmd>lua require('bookmarks').add_bookmarks(true)<CR>", { noremap = true, silent = true, desc = "Add bookmark" })
+map('n', '<leader>md', "<cmd>lua require('bookmarks').delete_on_virt()<CR>", { noremap = true, silent = true, desc = "Delete bookmark" })
+map('n', '<leader>ml', "<cmd>lua require('bookmarks.list').show_desc()<CR>", { noremap = true, silent = true, desc = "Show bookmarks" })
+-- map('n', '<leader>mm', "<cmd>lua require('bookmarks').add_bookmarks(true)<CR>", { noremap = true, silent = true, desc = "Add bookmark" })
