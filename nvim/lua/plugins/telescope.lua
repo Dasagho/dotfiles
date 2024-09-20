@@ -39,7 +39,19 @@ return {
                     '--hidden',  -- Sigue buscando archivos ocultos
                     '--glob', '!.git/'
                 },
+                layout_strategy = 'horizontal', -- Usar diseño horizontal
+                layout_config = {
+                    horizontal = {
+                        -- Establece el tamaño total de la ventana de Telescope
+                        width = 0.95, -- El 90% del ancho de la pantalla
+                        height = 0.95, -- El 80% de la altura de la pantalla
+                        preview_cutoff = 120, -- Si la ventana es más pequeña que esto, no se muestra la previsualización
+                        -- Ajusta el ancho relativo de la previsualización y la lista de archivos
+                        preview_width = 0.7, -- La previsualización ocupará el 60% del ancho de la ventana
+                    },
+                },
             },
+
             extensions = {
                 ["ui-select"] = {
                     require("telescope.themes").get_dropdown {}
