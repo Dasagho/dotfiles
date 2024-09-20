@@ -30,5 +30,7 @@ return {
 
         vim.o.foldmethod = 'expr'
         vim.o.foldexpr = 'nvim_treesitter#foldexpr()'
+        vim.o.foldenable = false   -- Desactiva el plegado automático
+        vim.o.foldlevel = 99       -- Despliega todas las líneas al abrir un archivo
     end
 }

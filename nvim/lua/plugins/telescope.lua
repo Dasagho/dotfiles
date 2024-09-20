@@ -22,6 +22,7 @@ return {
         map('n', 'gf', '<cmd>Telescope lsp_definitions<CR>', { noremap = true, silent = true, desc = "Go to file" })
         map('n', '<leader>gi', '<cmd>Telescope lsp_implementations<CR>', { noremap = true, silent = true, desc = "Find implementations" })
         map('n', '<leader>gc', '<cmd>Telescope git_status<CR>', { noremap = true, silent = true, desc = "Git changes" })
+        map('n', '<leader>fm', '<cmd>Telescope marks<CR>', { noremap = true, silent = true, desc = "Find marks" })
 
 
         require('telescope').setup{
@@ -42,12 +43,12 @@ return {
             extensions = {
                 ["ui-select"] = {
                     require("telescope.themes").get_dropdown {}
-                }
+                },
             }
         }
 
         require('telescope').load_extension('fzf')
-        require("telescope").load_extension("ui-select")
+        require('telescope').load_extension('ui-select')
     end,
 
     defaults = {
