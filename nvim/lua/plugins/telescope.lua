@@ -23,6 +23,7 @@ return {
         map('n', '<leader>gi', '<cmd>Telescope lsp_implementations<CR>', { noremap = true, silent = true, desc = "Find implementations" })
         map('n', '<leader>gc', '<cmd>Telescope git_status<CR>', { noremap = true, silent = true, desc = "Git changes" })
         map('n', '<leader>fm', '<cmd>Telescope marks<CR>', { noremap = true, silent = true, desc = "Find marks" })
+        map('n', '<leader>fb', '<cmd>Telescope buffers<CR>', { noremap = true, silent = true, desc = "Find buffer" })
 
 
         require('telescope').setup{
