@@ -13,7 +13,21 @@ return {
         local lsp = require('lsp-zero')
 
         -- Lista de servidores que estás usando
-        local servers = { 'ts_ls', 'intelephense', 'clangd', 'emmet_ls' } -- agrega los servidores que necesites
+        local servers = { 
+            'ts_ls',
+            'clangd',
+            'jdtls',
+            'html',
+            'cssls',
+            'jsonls',
+            'marksman',
+            'lua_ls',
+            'dockerls',
+            'docker_compose_language_service',
+            'pyright',
+            'sqls',
+            'yamlls',
+        } -- agrega los servidores que necesites
 
         -- Configura cada servidor con las capacidades modificadas
         for _, server in ipairs(servers) do
@@ -47,48 +61,6 @@ return {
             }
         })
 
-        lsp.configure('intelephense', {
-            settings = {
-                intelephense = {
-                    files = {
-                        maxSize = 5000000, -- 5MB como máximo
-                    },
-                },
-            },
-        })
-
-          lsp.configure('jdtls', { })
-
-        -- Configurar EFM (aún sin PHP_CodeSniffer y PHP-CS-Fixer)
-        -- lsp.configure('efm', {
-        --     init_options = { documentFormatting = true },
-        --     settings = {
-        --         rootMarkers = {".git/"},
-        --         languages = {
-        --             php = {}, -- Añadir linters o formateadores más tarde
-        --         },
-        --     }
-        -- })
-
-        -- lsp.configure('phpactor', {
-        --     cmd = { "phpactor", "language-server" },
-        --     filetypes = { "php" },
-        --     root_dir = function()
-        --         return require('lspconfig').util.root_pattern('composer.json', '.git')(vim.fn.getcwd()) or vim.loop.cwd()
-        --     end,
-        --     flags = {
-        --         debounce_text_changes = 500,
-        --     },
-        --     init_options = {
-        --         ["language_server_phpstan.enabled"] = false,
-        --         ["language_server_psalm.enabled"] = false,
-        --     },
-        --     on_attach = function(client)
-        --         client.config.settings.phpactor = client.config.settings.phpactor or {}
-        --         client.config.settings.phpactor.classLoader = vim.fn.getcwd() .. "/vendor/autoload.php"
-        --     end
-        -- })
-
         lsp.configure('lua_ls', {
             on_attach = function (client)
                 client.server_capabilities.document_formatting = true
@@ -112,12 +84,6 @@ return {
             }
         })
 
-        lsp.configure('clangd', {})
-
-        lsp.configure('emmet_ls', {
-            filetypes = { 'html', 'css', 'php' }
-        })
-
         vim.lsp.handlers["textDocument/codeAction"] = vim.lsp.with(
             vim.lsp.handlers.codeAction, {
                 signs = false
@@ -134,7 +100,7 @@ return {
             float = false,
         })
 
-        local signs = { Error = "E", Warn = "W", Hint = " ", Info = "I" }
+        local signs = { Error = "E", Warn = "W", Hint = "A", Info = "I" }
         for type, icon in pairs(signs) do
             local hl = "DiagnosticSign" .. type
             vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
@@ -143,13 +109,6 @@ return {
         lsp.setup({
             manage_nvim_cmp = true, -- Maneja la configuración de autocompletado
             set_lsp_keymaps = true, -- Activa los keymaps por defecto
-            on_attach = function(client, bufnr)
-                -- Aquí puedes añadir configuraciones adicionales que se aplicarán a todos los servidores
-                vim.lsp.handlers["textDocument/codeAction"] = vim.lsp.with(
-                    vim.lsp.handlers.codeAction, 
-                    { signs = false }
-                )
-            end
         })
 
     end
