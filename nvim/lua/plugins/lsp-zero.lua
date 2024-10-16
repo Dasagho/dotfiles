@@ -118,18 +118,11 @@ return {
             filetypes = { 'html', 'css', 'php' }
         })
 
-        vim.lsp.handlers["textDocument/codeAction"] = function(_, _, actions)
-            if not actions or vim.tbl_isempty(actions) then
-                return
-            end
-            -- Aquí puedes controlar cómo manejar las code actions sin la bombilla
-        end
-
-        -- Configurar los signos de diagnóstico
-        vim.fn.sign_define('DiagnosticSignError', { text = 'E', texthl = 'DiagnosticSignError' })
-        vim.fn.sign_define('DiagnosticSignWarn', { text = 'W', texthl = 'DiagnosticSignWarn' })
-        vim.fn.sign_define('DiagnosticSignInfo', { text = 'I', texthl = 'DiagnosticSignInfo' })
-        vim.fn.sign_define('DiagnosticSignHint', { text = ' ', texthl = 'DiagnosticSignHint' }) -- Espacio en blanco para ocultar la bombilla
+        vim.lsp.handlers["textDocument/codeAction"] = vim.lsp.with(
+            vim.lsp.handlers.codeAction, {
+                signs = false
+            }
+        )
 
         -- Configurar los diagnósticos
         vim.diagnostic.config({
@@ -141,9 +134,22 @@ return {
             float = false,
         })
 
+        local signs = { Error = "E", Warn = "W", Hint = " ", Info = "I" }
+        for type, icon in pairs(signs) do
+            local hl = "DiagnosticSign" .. type
+            vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
+        end
+
         lsp.setup({
             manage_nvim_cmp = true, -- Maneja la configuración de autocompletado
             set_lsp_keymaps = true, -- Activa los keymaps por defecto
+            on_attach = function(client, bufnr)
+                -- Aquí puedes añadir configuraciones adicionales que se aplicarán a todos los servidores
+                vim.lsp.handlers["textDocument/codeAction"] = vim.lsp.with(
+                    vim.lsp.handlers.codeAction, 
+                    { signs = false }
+                )
+            end
         })
 
     end

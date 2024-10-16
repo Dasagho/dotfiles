@@ -2,6 +2,11 @@ return {
     'nvimdev/lspsaga.nvim',
     config = function ()
         require('lspsaga').setup({
+            lightbulb = {
+                enable = false,
+                sign = false,
+                virtual_text = false,
+            },
             server_filetype_map = {
                 typescript = 'typescript'
             }

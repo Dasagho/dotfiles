@@ -38,4 +38,3 @@ vim.api.nvim_command('autocmd FileType * setlocal formatoptions-=c')
 -- Opcionalmente, también puedes desactivar otras opciones relacionadas:
 vim.api.nvim_command('autocmd FileType * setlocal formatoptions-=r') -- Evita que continúe comentarios con el flag 'r'
 vim.api.nvim_command('autocmd FileType * setlocal formatoptions-=o') -- Evita que se añada el comentario al usar 'o' o 'O'
-
