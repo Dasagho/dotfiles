@@ -6,9 +6,9 @@ return {
         require("nvim-surround").setup({
             keymaps = {
                 insert = "<C-g>s",  -- (opcional) Surround en modo insert con <C-g>s
-                normal = "<leader>ys", -- Añadir surround
-                delete = "<leader>ds", -- Eliminar surround
-                change = "<leader>cs", -- Cambiar surround
+                normal = "<leader>sy", -- Añadir surround
+                delete = "<leader>sd", -- Eliminar surround
+                change = "<leader>sc", -- Cambiar surround
                 visual = "<leader>S",  -- Añadir surround en modo visual
             },
         })

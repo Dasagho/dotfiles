@@ -12,10 +12,15 @@ return {
     config = function()
         local lsp = require('lsp-zero')
 
-        lsp.setup({
-            manage_nvim_cmp = true, -- Maneja la configuración de autocompletado
-            set_lsp_keymaps = true, -- Activa los keymaps por defecto
-        })
+        -- Lista de servidores que estás usando
+        local servers = { 'ts_ls', 'intelephense', 'clangd', 'emmet_ls' } -- agrega los servidores que necesites
+
+        -- Configura cada servidor con las capacidades modificadas
+        for _, server in ipairs(servers) do
+            lsp.configure(server, {
+                -- Aquí puedes agregar otras configuraciones específicas del servidor si lo deseas
+            })
+        end
 
         -- Configuraciones específicas de servidores
         lsp.configure('ts_ls', {
@@ -52,16 +57,18 @@ return {
             },
         })
 
+          lsp.configure('jdtls', { })
+
         -- Configurar EFM (aún sin PHP_CodeSniffer y PHP-CS-Fixer)
-        lsp.configure('efm', {
-            init_options = { documentFormatting = true },
-            settings = {
-                rootMarkers = {".git/"},
-                languages = {
-                    php = {}, -- Añadir linters o formateadores más tarde
-                },
-            }
-        })
+        -- lsp.configure('efm', {
+        --     init_options = { documentFormatting = true },
+        --     settings = {
+        --         rootMarkers = {".git/"},
+        --         languages = {
+        --             php = {}, -- Añadir linters o formateadores más tarde
+        --         },
+        --     }
+        -- })
 
         -- lsp.configure('phpactor', {
         --     cmd = { "phpactor", "language-server" },
@@ -83,6 +90,9 @@ return {
         -- })
 
         lsp.configure('lua_ls', {
+            on_attach = function (client)
+                client.server_capabilities.document_formatting = true
+            end,
             settings = {
                 Lua = {
                     runtime = {
@@ -102,18 +112,39 @@ return {
             }
         })
 
+        lsp.configure('clangd', {})
+
         lsp.configure('emmet_ls', {
             filetypes = { 'html', 'css', 'php' }
         })
 
-        -- Desactivar texto virtual, signos y subrayado para diagnósticos
+        vim.lsp.handlers["textDocument/codeAction"] = function(_, _, actions)
+            if not actions or vim.tbl_isempty(actions) then
+                return
+            end
+            -- Aquí puedes controlar cómo manejar las code actions sin la bombilla
+        end
+
+        -- Configurar los signos de diagnóstico
+        vim.fn.sign_define('DiagnosticSignError', { text = 'E', texthl = 'DiagnosticSignError' })
+        vim.fn.sign_define('DiagnosticSignWarn', { text = 'W', texthl = 'DiagnosticSignWarn' })
+        vim.fn.sign_define('DiagnosticSignInfo', { text = 'I', texthl = 'DiagnosticSignInfo' })
+        vim.fn.sign_define('DiagnosticSignHint', { text = ' ', texthl = 'DiagnosticSignHint' }) -- Espacio en blanco para ocultar la bombilla
+
+        -- Configurar los diagnósticos
         vim.diagnostic.config({
-            virtual_text = false, -- No mostrar texto en línea para errores/advertencias
-            signs = true,         -- Mantener las señales en el lateral
-            underline = false,    -- Desactivar subrayado
+            virtual_text = false,
+            signs = true,
+            update_in_insert = false,
+            underline = false,
+            severity_sort = false,
+            float = false,
         })
 
-        -- Inicializar LSP con las configuraciones
-        lsp.setup()
+        lsp.setup({
+            manage_nvim_cmp = true, -- Maneja la configuración de autocompletado
+            set_lsp_keymaps = true, -- Activa los keymaps por defecto
+        })
+
     end
 }
