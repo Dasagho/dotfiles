@@ -12,7 +12,7 @@ return {
 
     config = function()
         local sources = require('dbee.sources')
-        vim.keymap.set('n', '<leader>d', '<cmd>Dbee toggle<CR>', { noremap = true, silent = true, desc = "open database" })
+        vim.keymap.set('n', '<leader>dd', '<cmd>Dbee toggle<CR>', { noremap = true, silent = true, desc = "open database" })
         require("dbee").setup({
             sources = {
                 sources.MemorySource:new({

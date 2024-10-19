@@ -23,7 +23,6 @@ return {
             },
             automatic_installation = true,
         })
-
         vim.env.PATH = vim.fn.stdpath("data") .. "/mason/bin:" .. vim.env.PATH
     end
 }
