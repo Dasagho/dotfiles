@@ -9,8 +9,15 @@ return {
                 { "<leader>de", function() require("dapui").eval() end, desc = "Eval", mode = {"n", "v"} },
             },
             config = function ()
-                local dap, dapui = require("dap"), require("dapui")
+                local dapui = require("dapui")
                 dapui.setup({})
+            end
+        },
+        {
+            "mfussenegger/nvim-dap-python",
+            config = function()
+                local path = vim.fn.getcwd() .. "/.venv/bin/python"
+                require('dap-python').setup(path)
             end
         }
     },
@@ -66,6 +73,15 @@ return {
 
         local dap = require('dap')
 
+        dap.listeners.after['event_terminated']['print_stderr'] = function(session, body)
+            if session.adapter and session.adapter.stdio then
+                local stderr_output = session.adapter.stdio[2]:read('*a') -- lee la salida de stderr
+                if stderr_output and #stderr_output > 0 then
+                    print('Error en el adaptador:', stderr_output)
+                end
+            end
+        end
+
         dap.adapters.go = function(callback, config)
             if config.mode == 'remote' and config.request == 'attach' then
                 callback({
@@ -85,5 +101,27 @@ return {
                 })
             end
         end
+
+        dap.adapters.php = {
+            type = 'executable',
+            command = 'node',
+            args = { vim.fn.stdpath("data") .. '/mason/packages/php-debug-adapter/extension/out/phpDebug.js'}
+        }
+
+        dap.adapters["pwa-node"] = {
+            type = "server",
+            host = "localhost",
+            port = "8123",
+            executable = {
+                command = "node",
+                args = { vim.fn.stdpath("data") .. '/mason/packages/js-debug-adapter/js-debug/src/dapDebugServer.js', "8123" },
+            }
+        }
+
+        dap.adapters.python = {
+            type = 'executable';
+            command = vim.fn.getcwd() .. '/.venv/bin/python';
+            args = { '-m', 'debugpy.adapter' };
+        }
     end,
 }
