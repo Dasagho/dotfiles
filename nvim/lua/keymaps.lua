@@ -20,3 +20,5 @@ map('n', '<leader>mm', "<cmd>lua require('bookmarks').add_bookmarks(true)<CR>", 
 map('n', '<leader>md', "<cmd>lua require('bookmarks').delete_on_virt()<CR>", { noremap = true, silent = true, desc = "Delete bookmark" })
 map('n', '<leader>ml', "<cmd>lua require('bookmarks.list').show_desc()<CR>", { noremap = true, silent = true, desc = "Show bookmarks" })
 -- map('n', '<leader>mm', "<cmd>lua require('bookmarks').add_bookmarks(true)<CR>", { noremap = true, silent = true, desc = "Add bookmark" })
+
+map('i', 'jj', '<Esc>', opts)

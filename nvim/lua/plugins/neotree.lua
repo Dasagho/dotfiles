@@ -10,5 +10,11 @@ return {
     config = function()
         vim.keymap.set('n', '<leader>b', ':Neotree toggle<CR>', { noremap = true, silent = true })
         vim.keymap.set('n', '<leader>gs', ':Neotree git_status toggle<CR>', { noremap = true, silent = true, desc = "Git status" })
+
+        require("neo-tree").setup({
+            filesystem = {
+                change_cwd = false,
+            },
+        })
     end
 }

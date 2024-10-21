@@ -8,8 +8,9 @@ vim.opt.smartindent = true
 vim.opt.clipboard = "unnamedplus"
 vim.opt.mouse = "a"
 vim.o.scrolloff = 12
-vim.opt.wildignorecase = true
-vim.opt.wildmode = 'longest:full,full'
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
+vim.opt.wildmenu = false
 vim.opt.signcolumn = "yes:1"  -- Fija la columna de signos con un ancho de 2
 
 -- Habilita el undo persistente
