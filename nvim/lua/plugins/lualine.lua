@@ -1,6 +1,7 @@
 return {
   "nvim-lualine/lualine.nvim",
   dependencies = { "nvim-tree/nvim-web-devicons", "arkav/lualine-lsp-progress", opt = true },
+  event = "VeryLazy", -- puede cargarse después del inicio
   config = function()
     local function get_attached_lsp()
       local clients = vim.lsp.get_active_clients { bufnr = 0 }
