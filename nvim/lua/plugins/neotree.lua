@@ -8,7 +8,7 @@ return {
         -- "3rd/image.nvim", -- Optional image support in preview window: See `# Preview Mode` for more information
     },
     config = function()
-        vim.keymap.set('n', '<leader>b', ':Neotree toggle<CR>', { noremap = true, silent = true })
+        vim.keymap.set('n', '<leader>e', ':Neotree toggle<CR>', { noremap = true, silent = true, desc = "File explorer" })
         vim.keymap.set('n', '<leader>gs', ':Neotree git_status toggle<CR>', { noremap = true, silent = true, desc = "Git status" })
 
         require("neo-tree").setup({

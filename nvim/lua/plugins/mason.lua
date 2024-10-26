@@ -8,6 +8,7 @@ return {
         require("mason").setup()
         require("mason-lspconfig").setup({
             ensure_installed = {
+                -- lsp
                 "ts_ls",
                 "html",
                 "clangd",
@@ -20,6 +21,15 @@ return {
                 "pyright",
                 "sqls",
                 "yamlls",
+                -- dap
+            --     "js-debug-adapter",
+            --     "node-debug2-adapter",
+            --     "delve",
+            --     "phpactor",
+            --     -- formaters
+            --     "standardjs",
+            --     "stylua",
+            --     "shfmt"
             },
             automatic_installation = true,
         })

@@ -12,7 +12,6 @@ vim.cmd('nnoremap <silent> <C-l> <C-w>l')
 
 map('n', '<leader>e', "<cmd>lua vim.diagnostic.open_float(nil, { focusable = false, scope = 'line', header = '🔍 LSP Diagnostics', border = 'rounded', source = 'always', prefix = '● ' })<CR>", { noremap = true, silent = true, desc = "show message inline" })
 
-map('n', '<C-t>', 'tabnew', opts)
 
 map('n', '<leader>z', "<cmd> lua vim.wo.wrap = not vim.wo.wrap<CR>", { noremap = true, silent = true, desc = "toggle wrap" })
 
@@ -22,3 +21,11 @@ map('n', '<leader>ml', "<cmd>lua require('bookmarks.list').show_desc()<CR>", { n
 -- map('n', '<leader>mm', "<cmd>lua require('bookmarks').add_bookmarks(true)<CR>", { noremap = true, silent = true, desc = "Add bookmark" })
 
 map('i', 'jj', '<Esc>', opts)
+
+map('n', '<leader>bp', ':bprevious<CR>', { noremap = true, silent = true, desc = "Prev buff" })
+map('n', '<leader>bn', ':bnext<CR>', { noremap = true, silent = true, desc = "Next buff" })
+
+map('n', '<C-t>', 'tabnew', opts)
+map('n', '<S-h>', ':tabprevious<CR>', { noremap = true, silent = true, desc = "Prev tab" })
+map('n', '<S-l>', ':tabnext<CR>', { noremap = true, silent = true, desc = "Next tab" })
+
