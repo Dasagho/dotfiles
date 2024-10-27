@@ -78,50 +78,40 @@ return {
                 local stderr_output = session.adapter.stdio[2]:read('*a') -- lee la salida de stderr
                 if stderr_output and #stderr_output > 0 then
                     print('Error en el adaptador:', stderr_output)
-                end
-            end
+                end            end
         end
 
-        dap.adapters.go = function(callback, config)
-            if config.mode == 'remote' and config.request == 'attach' then
-                callback({
-                    type = 'server',
-                    host = config.host or '127.0.0.1',
-                    port = config.port or '38697'
-                })
-            else
-                callback({
-                    type = 'server',
-                    port = '${port}',
-                    executable = {
-                        command = 'dlv',
-                        args = { 'dap', '-l', '127.0.0.1:${port}', '--log', '--log-output=dap' },
-                        detached = vim.fn.has("win32") == 0,
-                    }
-                })
-            end
-        end
-
-        dap.adapters.php = {
-            type = 'executable',
-            command = 'node',
-            args = { vim.fn.stdpath("data") .. '/mason/packages/php-debug-adapter/extension/out/phpDebug.js'}
-        }
-
-        dap.adapters["pwa-node"] = {
-            type = "server",
-            host = "localhost",
-            port = "8123",
-            executable = {
-                command = "node",
-                args = { vim.fn.stdpath("data") .. '/mason/packages/js-debug-adapter/js-debug/src/dapDebugServer.js', "8123" },
+        dap.configurations.python = {
+            {
+                type = 'python',
+                request = 'attach',
+                name = 'FastAPI',
+                host = '127.0.0.1',
+                port = 5678,
             }
         }
 
-        dap.adapters.python = {
-            type = 'executable';
-            command = vim.fn.getcwd() .. '/.venv/bin/python';
-            args = { '-m', 'debugpy.adapter' };
-        }
+        vim.api.nvim_create_autocmd("FileType", {
+            pattern = "dap-repl",
+            callback = function()
+                require("dap.ext.autocompl").attach()
+            end,
+        })
+
+        local function load_launchjs()
+            require("dap.ext.vscode").load_launchjs(nil, {
+                -- Mapea los tipos de adaptadores DAP a las extensiones de archivo
+                ["pwa-node"] = { "javascript", "typescript" },
+                ["cppdbg"] = { "c", "cpp" },
+                ["python"] = { "python" },
+                -- Agrega más mapeos según sea necesario
+            })
+        end
+
+        vim.api.nvim_create_autocmd("DirChanged", {
+            callback = load_launchjs,
+        })
+
+        load_launchjs() -- Carga inicial
     end,
 }
