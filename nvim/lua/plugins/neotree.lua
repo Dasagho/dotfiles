@@ -9,7 +9,7 @@ return {
   },
   cmd = "Neotree", -- cargar solo cuando se invoque el comando
   config = function()
-    vim.keymap.set("n", "<leader>e", ":Neotree toggle<CR>", { noremap = true, silent = true, desc = "File explorer" })
+    vim.keymap.set("n", "<leader>bb", ":Neotree toggle<CR>", { noremap = true, silent = true, desc = "File explorer" })
     vim.keymap.set(
       "n",
       "<leader>gs",
