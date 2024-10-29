@@ -1,6 +1,8 @@
 return {
   "nvim-treesitter/nvim-treesitter",
-  dependencies = { "Mofiqul/dracula.nvim" },
+  dependencies = {
+    "windwp/nvim-ts-autotag",
+  },
   event = { "BufRead", "BufNewFile" },
   lazy = vim.fn.argc(-1) == 0,
   init = function(plugin)
@@ -19,9 +21,7 @@ return {
       indent = {
         enable = true,
       },
-      autotag = {
-        enable = true,
-      },
+      -- Removemos la configuración de autotag de aquí
       fold = {
         enable = true,
       },
@@ -29,7 +29,7 @@ return {
 
     vim.o.foldmethod = "expr"
     vim.o.foldexpr = "nvim_treesitter#foldexpr()"
-    vim.o.foldenable = false -- Desactiva el plegado automático
-    vim.o.foldlevel = 99 -- Despliega todas las líneas al abrir un archivo
+    vim.o.foldenable = false
+    vim.o.foldlevel = 99
   end,
 }

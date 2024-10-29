@@ -13,7 +13,7 @@ return {
       for _, client in pairs(clients) do
         table.insert(client_names, client.name)
       end
-      return " " .. table.concat(client_names, ",")
+      return "󱘖 " .. table.concat(client_names, ",")
     end
 
     local function get_conform_formatter()
@@ -40,12 +40,26 @@ return {
         return ""
       end
 
+      -- Obtener el tipo de archivo actual
       local filetype = vim.bo.filetype
-      if not filetype or not dap.configurations[filetype] then
+      if not filetype then
         return ""
       end
 
-      return " " .. filetype
+      -- Verificar si hay configuraciones para este tipo de archivo
+      local configs = dap.configurations[filetype]
+      if not configs or #configs == 0 then
+        return ""
+      end
+
+      -- Obtener el nombre del adaptador de la primera configuración
+      -- Se usa la primera configuración ya que es la más común
+      local adapter_type = configs[1].type
+      if not adapter_type then
+        return ""
+      end
+
+      return " " .. adapter_type
     end
 
     -- Cache para mejorar rendimiento
@@ -75,12 +89,6 @@ return {
         lualine_x = {
           {
             function()
-              return get_cached_value("lsp", get_attached_lsp)
-            end,
-            color = { fg = "#89b4fa" },
-          },
-          {
-            function()
               return get_cached_value("formatter", get_conform_formatter)
             end,
             color = { fg = "#a6e3a1" },
@@ -91,12 +99,16 @@ return {
             end,
             color = { fg = "#f38ba8" },
           },
-          "encoding",
-          "fileformat",
-          "filetype",
         },
-        lualine_y = { "progress" },
-        lualine_z = { "location" },
+        lualine_y = {
+          {
+            function()
+              return get_cached_value("lsp", get_attached_lsp)
+            end,
+            color = { fg = "#89b4fa" },
+          },
+        },
+        lualine_z = { "filetype" },
       },
       inactive_sections = {
         lualine_a = {},
