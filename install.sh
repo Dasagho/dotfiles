@@ -26,6 +26,7 @@ detect_os() {
 }
 
 main() {
+  declare ORIGINAL_USER=$USER
   detect_os
   main
 }

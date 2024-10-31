@@ -21,6 +21,7 @@ declare -a HOMEBREW_PACKAGES=(
   "bat"
   "fzf"
   "lazygit"
+  "fnm"
 )
 
 # GUI apps para macOS

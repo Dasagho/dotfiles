@@ -9,12 +9,18 @@ return {
   },
   cmd = "Neotree", -- cargar solo cuando se invoque el comando
   config = function()
-    vim.keymap.set("n", "<leader>bb", ":Neotree toggle<CR>", { noremap = true, silent = true, desc = "File explorer" })
+    vim.keymap.set("n", "<C-a>", ":Neotree toggle<CR>", { noremap = true, silent = true, desc = "File explorer" })
     vim.keymap.set(
       "n",
       "<leader>gs",
-      ":Neotree git_status toggle<CR>",
+      "<cmd>Neotree git_status toggle<CR>",
       { noremap = true, silent = true, desc = "Git status" }
+    )
+    vim.keymap.set(
+      "n",
+      "<leader>be",
+      "<cmd>Neotree buffers toggle<cr>",
+      { noremap = true, silent = true, desc = "Buffer explorer" }
     )
 
     require("neo-tree").setup {

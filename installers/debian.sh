@@ -2,8 +2,8 @@
 
 source "../config/packages.sh"
 source "../config/paths.sh"
-source "../utils/package_utils.sh"
-source "../utils/system_utils.sh"
+source "../utils/package.sh"
+source "../utils/system.sh"
 
 install_linuxbrew_deps() {
   sudo apt update
@@ -19,27 +19,7 @@ install_from_source() {
 
   download_and_extract "$package"
 
-  case $package in
-  "fish")
-    cd fish-*/
-    cmake -DCMAKE_INSTALL_PREFIX="$SHARE_DIR/fish" .
-    make
-    make install
-    link_binary "$package" "$SHARE_DIR/fish/bin/fish" "fish"
-    ;;
-  "tmux")
-    cd tmux-*/
-    ./configure --prefix="$SHARE_DIR/tmux"
-    make
-    make install
-    link_binary "$package" "$SHARE_DIR/tmux/bin/tmux" "tmux"
-    ;;
-  "neovim")
-    cd nvim-linux64
-    cp -r * "$SHARE_DIR/neovim/"
-    link_binary "$package" "$SHARE_DIR/neovim/bin/nvim" "nvim"
-    ;;
-  esac
+  # Download and install nvim, fish and tmux
 }
 
 main() {
