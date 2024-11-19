@@ -28,6 +28,9 @@ return {
       "pyright",
       "sqls",
       "yamlls",
+      "phpactor",
+      "bashls",
+      "emmet_ls",
     } -- agrega los servidores que necesites
 
     -- Configura cada servidor con las capacidades modificadas
@@ -80,6 +83,28 @@ return {
           },
           telemetry = {
             enable = false, -- Desactiva la telemetría
+          },
+        },
+      },
+    })
+
+    lsp.configure("emmet_ls", {
+      filetypes = {
+        "html",
+        "typescriptreact",
+        "javascriptreact",
+        "css",
+        "sass",
+        "scss",
+        "less",
+        "jsx",
+        "tsx",
+      },
+      init_options = {
+        html = {
+          options = {
+            -- For possible options, see: https://github.com/emmetio/emmet/blob/master/src/config.ts#L79-L267
+            ["bem.enabled"] = true,
           },
         },
       },

@@ -42,6 +42,11 @@ if status is-interactive
     fnm env | source
 end
 
+# Remap suspend action to Ctrl+Y
+stty susp \x19
+# Disable Ctrl+Z
+stty susp undef
+
 # bun
 set --export BUN_INSTALL "$HOME/.bun"
 set --export PATH $BUN_INSTALL/bin $PATH
