@@ -1,5 +1,6 @@
 return {
   "stevearc/conform.nvim",
+  cmd = { "Format", "ConformFormat" },
   event = "BufWritePre",
   config = function()
     require("conform").setup {

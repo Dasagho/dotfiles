@@ -1,21 +1,22 @@
 return {
   "hrsh7th/nvim-cmp",
-  event = { "InsertEnter", "CmdlineEnter" },
+  event = { "InsertEnter" },
   dependencies = {
     -- cmp sources
-    "hrsh7th/cmp-buffer",
-    "hrsh7th/cmp-path",
-    "hrsh7th/cmp-nvim-lsp",
-    "saadparwaiz1/cmp_luasnip",
-    "hrsh7th/cmp-nvim-lua",
+    { "hrsh7th/cmp-buffer", lazy = true },
+    { "hrsh7th/cmp-path", lazy = true },
+    { "hrsh7th/cmp-nvim-lsp", lazy = true },
+    { "saadparwaiz1/cmp_luasnip", lazy = true },
+    { "hrsh7th/cmp-nvim-lua", lazy = true },
 
     --list of default snippets
-    "rafamadriz/friendly-snippets",
-    "mlaursen/vim-react-snippets",
+    { "rafamadriz/friendly-snippets", lazy = true },
+    { "mlaursen/vim-react-snippets", lazy = true },
 
     -- autopairs , autocompletes ()[] etc
     {
       "windwp/nvim-autopairs",
+      lazy = true,
       config = function()
         require("nvim-autopairs").setup {
           check_ts = true,

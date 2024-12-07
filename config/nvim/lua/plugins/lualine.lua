@@ -1,109 +1,152 @@
 return {
   "nvim-lualine/lualine.nvim",
-  dependencies = { "nvim-tree/nvim-web-devicons", "arkav/lualine-lsp-progress", opt = true },
-  event = "VeryLazy", -- puede cargarse después del inicio
+  dependencies = {
+    "nvim-tree/nvim-web-devicons",
+    { "arkav/lualine-lsp-progress", opt = true },
+    { "mfussenegger/nvim-lint", lazy = true },
+  },
+  event = "User AlphaClosed",
   config = function()
-    local function get_attached_lsp()
+    local lsp_value = ""
+    local formatter_value = ""
+    local dap_value = ""
+    local linter_value = ""
+
+    local function update_lsp_clients()
       local clients = vim.lsp.get_active_clients { bufnr = 0 }
       if #clients == 0 then
-        return ""
+        lsp_value = ""
+        return
       end
 
       local client_names = {}
       for _, client in pairs(clients) do
         table.insert(client_names, client.name)
       end
-      return "󱘖 " .. table.concat(client_names, ",")
+      lsp_value = "󱘖 " .. table.concat(client_names, ",")
     end
 
-    local function get_conform_formatter()
+    local function update_formatter()
       local found, conform = pcall(require, "conform")
       if not found then
-        return ""
+        formatter_value = ""
+        return
       end
 
       local formatters = conform.list_formatters(0)
       if #formatters == 0 then
-        return ""
+        formatter_value = ""
+        return
       end
 
       local formatter_names = {}
-      for _, formatter in ipairs(formatters) do
-        table.insert(formatter_names, formatter.name)
+      for _, f in ipairs(formatters) do
+        table.insert(formatter_names, f.name)
       end
-      return "󰉢 " .. table.concat(formatter_names, ",")
+      formatter_value = "󰉢 " .. table.concat(formatter_names, ",")
     end
 
-    local function get_dap_adapter()
+    local function update_dap_adapter()
       local found, dap = pcall(require, "dap")
       if not found then
-        return ""
+        dap_value = ""
+        return
       end
 
-      -- Obtener el tipo de archivo actual
       local filetype = vim.bo.filetype
       if not filetype then
-        return ""
+        dap_value = ""
+        return
       end
 
-      -- Verificar si hay configuraciones para este tipo de archivo
       local configs = dap.configurations[filetype]
       if not configs or #configs == 0 then
-        return ""
+        dap_value = ""
+        return
       end
 
-      -- Obtener el nombre del adaptador de la primera configuración
-      -- Se usa la primera configuración ya que es la más común
       local adapter_type = configs[1].type
       if not adapter_type then
-        return ""
+        dap_value = ""
+        return
       end
 
-      return " " .. adapter_type
+      dap_value = " " .. adapter_type
     end
 
-    -- Cache para mejorar rendimiento
-    local cache_time = 1000 -- 1 segundo
-    local cache = {
-      lsp = { value = "", last_update = 0 },
-      formatter = { value = "", last_update = 0 },
-      dap = { value = "", last_update = 0 },
-    }
-
-    local function get_cached_value(key, getter)
-      local current_time = vim.loop.now()
-      if (current_time - cache[key].last_update) > cache_time then
-        cache[key].value = getter()
-        cache[key].last_update = current_time
+    local function update_linter()
+      local found, lint = pcall(require, "lint")
+      if not found then
+        linter_value = ""
+        return
       end
-      return cache[key].value
+
+      local filetype = vim.bo.filetype
+      if not filetype or filetype == "" then
+        linter_value = ""
+        return
+      end
+
+      local linters = lint.linters_by_ft[filetype]
+      if not linters or #linters == 0 then
+        linter_value = ""
+        return
+      end
+
+      linter_value = "󰁨 " .. table.concat(linters, ",")
     end
+
+    -- Autocomandos para actualizar valores asíncronamente
+    vim.api.nvim_create_autocmd("LspAttach", {
+      callback = function()
+        update_lsp_clients()
+      end,
+    })
+
+    vim.api.nvim_create_autocmd("LspDetach", {
+      callback = function()
+        update_lsp_clients()
+      end,
+    })
+
+    vim.api.nvim_create_autocmd("BufRead", {
+      callback = function()
+        update_lsp_clients()
+        update_formatter()
+        update_dap_adapter()
+        update_linter()
+      end,
+    })
 
     require("lualine").setup {
       sections = {
         lualine_a = { "mode" },
         lualine_b = { "branch", "diff", "diagnostics" },
-        lualine_c = {
-          "filename",
-        },
+        lualine_c = { "filename" },
         lualine_x = {
           {
             function()
-              return get_cached_value("formatter", get_conform_formatter)
+              return formatter_value
             end,
             color = { fg = "#a6e3a1" },
           },
           {
             function()
-              return get_cached_value("dap", get_dap_adapter)
+              return dap_value
             end,
             color = { fg = "#f38ba8" },
+          },
+          {
+            function()
+              return linter_value
+            end,
+            color = { fg = "#f9e2af" },
           },
         },
         lualine_y = {
           {
             function()
-              return get_cached_value("lsp", get_attached_lsp)
+              return lsp_value
             end,
             color = { fg = "#89b4fa" },
           },

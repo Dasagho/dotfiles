@@ -1,12 +1,13 @@
 return {
   "nvim-telescope/telescope.nvim",
   dependencies = {
-    "nvim-lua/plenary.nvim",
+    { "nvim-lua/plenary.nvim", lazy = true },
     {
       "nvim-telescope/telescope-fzf-native.nvim",
+      lazy = true,
       build = "make", -- Necesario para compilar el plugin nativo
     },
-    "nvim-telescope/telescope-ui-select.nvim",
+    { "nvim-telescope/telescope-ui-select.nvim", lazy = true },
   },
   cmd = "Telescope",
   config = function()
