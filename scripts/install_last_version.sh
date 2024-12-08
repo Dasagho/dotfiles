@@ -1,5 +1,22 @@
 #!/usr/bin/env bash
 
+# Lista de paquetes a verificar
+required_packages=("fish" "curl" "wget" "git")
+
+# Función para verificar un paquete
+check_package() {
+  local package=$1
+  if ! command -v "$package" &>/dev/null; then
+    echo "Error: El paquete '$package' no está instalado." >&2
+    exit 1
+  fi
+}
+
+# Verificar cada paquete de la lista
+for package in "${required_packages[@]}"; do
+  check_package "$package"
+done
+
 BIN_DIRECTORY=$HOME/.local/bin
 INSTALL_DIRECTORY=$HOME/.local/share
 CONFIG_DIRECTORY=$HOME/.config
@@ -13,15 +30,11 @@ cp ./desktop/kitty/kitty.desktop $INSTALL_DIRECTORY/applications
 cp ./desktop/kitty/icon/kitty.png $INSTALL_DIRECTORY/icons/hicolor/256x256/apps/
 cp -r ../config/kitty $CONFIG_DIRECTORY
 
-# Install fish
-last_fish_version=$(curl https://api.github.com/repos/fish-shell/fish-shell/releases/latest | jq -r .name | awk '{print $2}')
-wget "https://github.com/fish-shell/fish-shell/releases/download/$last_fish_version/fish-$last_fish_version.app.zip" -O "$INSTALL_DIRECTORY/fish.zip"
-rm "$INSTALL_DIRECTORY/fish.zip" && unzip "$INSTALL_DIRECTORY/fish.zip"
-ln -sf "$INSTALL_DIRECTORY/fish.app/Contents/Resources/base/usr/local/bin/fish" "$BIN_DIRECTORY/fish"
-
+# Config fish
 cp -r ../config/fish $CONFIG_DIRECTORY
 chmod +x -R $BIN_DIRECTORY
 
+# Install fonts
 cp ../fonts/* "$INSTALL_DIRECTORY/fonts"
 fc-cache
 
