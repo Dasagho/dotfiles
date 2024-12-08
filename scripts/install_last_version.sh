@@ -19,12 +19,13 @@ wget "https://github.com/fish-shell/fish-shell/releases/download/$last_fish_vers
 rm "$INSTALL_DIRECTORY/fish.zip" && unzip "$INSTALL_DIRECTORY/fish.zip"
 ln -sf "$INSTALL_DIRECTORY/fish.app/Contents/Resources/base/usr/local/bin/fish" "$BIN_DIRECTORY/fish"
 
+cp -r ../config/fish $CONFIG_DIRECTORY
+chmod +x -R $BIN_DIRECTORY
+
+cp ../fonts/* "$INSTALL_DIRECTORY/fonts"
+fc-cache
+
 # Install ohmyfish
 rm -rf "$INSTALL_DIRECTORY/omf"
 curl https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install | fish
 fish --command "omf install bobthefish"
-
-cp -r ../config/fish $CONFIG_DIRECTORY
-chmod +x -R $BIN_DIRECTORY
-
-cp -r ../fonts/* "$INSTALL_DIRECTORY/fonts"
