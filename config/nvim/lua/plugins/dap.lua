@@ -5,7 +5,7 @@ return {
     {
       "rcarriga/nvim-dap-ui",
       lazy = true,
-      dependencies = { "nvim-neotest/nvim-nio", lazy = true },
+      dependencies = { "nvim-neotest/nvim-nio" },
       keys = {
         {
           "<leader>du",
@@ -26,14 +26,6 @@ return {
       config = function()
         local dapui = require "dapui"
         dapui.setup {}
-      end,
-    },
-    {
-      "mfussenegger/nvim-dap-python",
-      lazy = true,
-      config = function()
-        local path = vim.fn.getcwd() .. "/.venv/bin/python"
-        require("dap-python").setup(path)
       end,
     },
   },
@@ -200,16 +192,6 @@ return {
       end
     end
 
-    dap.configurations.python = {
-      {
-        type = "python",
-        request = "attach",
-        name = "FastAPI",
-        host = "127.0.0.1",
-        port = 5678,
-      },
-    }
-
     vim.api.nvim_create_autocmd("FileType", {
       pattern = "dap-repl",
       callback = function()
@@ -217,20 +199,20 @@ return {
       end,
     })
 
-    local function load_launchjs()
-      require("dap.ext.vscode").load_launchjs(nil, {
-        -- Mapea los tipos de adaptadores DAP a las extensiones de archivo
-        ["pwa-node"] = { "javascript", "typescript" },
-        ["cppdbg"] = { "c", "cpp" },
-        ["python"] = { "python" },
-        -- Agrega más mapeos según sea necesario
-      })
-    end
-
-    vim.api.nvim_create_autocmd("DirChanged", {
-      callback = load_launchjs,
-    })
-
-    load_launchjs() -- Carga inicial
+    -- local function load_launchjs()
+    --     require("dap.ext.vscode").load_launchjs(nil, {
+    --         -- Mapea los tipos de adaptadores DAP a las extensiones de archivo
+    --         ["pwa-node"] = { "javascript", "typescript" },
+    --         ["cppdbg"] = { "c", "cpp" },
+    --         ["python"] = { "python" },
+    --         -- Agrega más mapeos según sea necesario
+    --     })
+    -- end
+    --
+    -- vim.api.nvim_create_autocmd("DirChanged", {
+    --     callback = load_launchjs,
+    -- })
+    --
+    -- load_launchjs() -- Carga inicial
   end,
 }
