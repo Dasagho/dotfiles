@@ -18,6 +18,7 @@ if status is-interactive
     # set -Ux FLYCTL_INSTALL "/home/ayuda104/.fly"
     # fish_add_path "$FLYCTL_INSTALL/bin"
     # fish_add_path $HOME/.local/share/nvim/mason/bin
+    fish_add_path $HOME/.local/bin
 
     if test -n "$TMUX"
         set -x TERM xterm-256color
