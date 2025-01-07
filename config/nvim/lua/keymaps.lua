@@ -4,11 +4,19 @@ local opts = { noremap = true, silent = true }
 -- Eliminar resaltado de búsqueda
 map("n", "<ESC>", ":nohlsearch<CR>", opts)
 
--- No funciona usando mi config de tmux
-vim.cmd "nnoremap <silent> <C-h> <C-w>h"
-vim.cmd "nnoremap <silent> <C-j> <C-w>j"
-vim.cmd "nnoremap <silent> <C-k> <C-w>k"
-vim.cmd "nnoremap <silent> <C-l> <C-w>l"
+-- ============================
+-- === Moverse entre splits ===
+-- ============================
+map("n", "<M-h>", "<C-w>h", { noremap = true, silent = true })
+map("n", "<M-j>", "<C-w>j", { noremap = true, silent = true })
+map("n", "<M-k>", "<C-w>k", { noremap = true, silent = true })
+map("n", "<M-l>", "<C-w>l", { noremap = true, silent = true })
+
+-- ==================================
+-- === Moverse entre buffers (opcional) ===
+-- ==================================
+map("n", "<M-,>", ":bprevious<CR>", { noremap = true, silent = true })
+map("n", "<M-.>", ":bnext<CR>", { noremap = true, silent = true })
 
 map(
   "n",
