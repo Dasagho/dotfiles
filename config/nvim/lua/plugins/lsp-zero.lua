@@ -25,9 +25,10 @@ return {
       "pyright",
       "sqls",
       "yamlls",
-      "phpactor",
+      "intelephense",
       "bashls",
       "emmet_ls",
+      "gopls",
     } -- agrega los servidores que necesites
 
     -- Configura cada servidor con las capacidades modificadas
@@ -102,6 +103,19 @@ return {
           options = {
             -- For possible options, see: https://github.com/emmetio/emmet/blob/master/src/config.ts#L79-L267
             ["bem.enabled"] = true,
+          },
+        },
+      },
+    })
+
+    lsp.configure("jdtls", {
+      settings = {
+        java = {
+          implementationsCodeLens = {
+            enabled = true,
+          },
+          referencesCodeLens = {
+            enabled = true,
           },
         },
       },

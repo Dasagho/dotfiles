@@ -34,13 +34,7 @@ return {
   -- },
   -- Atajos de teclado
   keys = {
-    -- Comandos básicos
-    { "<leader>lgg", "<cmd>LazyGit<cr>", desc = "LazyGit" },
-    { "<leader>lgc", "<cmd>LazyGitConfig<cr>", desc = "LazyGit Config" },
-    { "<leader>lgf", "<cmd>LazyGitCurrentFile<cr>", desc = "LazyGit Current File" },
-    -- Comandos adicionales útiles
-    { "<leader>lgb", "<cmd>LazyGitFilter<cr>", desc = "LazyGit Branch Filter" },
-    { "<leader>lgm", "<cmd>LazyGitFilterCurrentFile<cr>", desc = "LazyGit File History" },
+    { "<leader>gg", "<cmd>LazyGit<cr>", desc = "Abrir Lazygit" },
   },
   -- Configuración adicional
   config = function()

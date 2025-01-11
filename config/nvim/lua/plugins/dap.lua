@@ -183,6 +183,27 @@ return {
 
     local dap = require "dap"
 
+    dap.adapters.java = function(callback, config)
+      require("jdtls").setup_dap { hotcodereplace = "auto" }
+    end
+
+    dap.configurations.java = {
+      {
+        type = "java",
+        request = "launch",
+        name = "Ejecutar aplicación Spring Boot",
+        mainClass = "com.example.messagingmicroservice.MessagingmicroserviceApplication",
+        projectName = "messagingmicroservice",
+        args = "",
+      },
+    }
+
+    dap.adapters.java = {
+      type = "server",
+      host = "127.0.0.1",
+      port = 5005, -- Puerto estándar para depuración remota en JVM
+    }
+
     dap.listeners.after["event_terminated"]["print_stderr"] = function(session, body)
       if session.adapter and session.adapter.stdio then
         local stderr_output = session.adapter.stdio[2]:read "*a" -- lee la salida de stderr
