@@ -30,6 +30,12 @@ cp ./desktop/kitty/kitty.desktop $INSTALL_DIRECTORY/applications
 cp ./desktop/kitty/icon/kitty.png $INSTALL_DIRECTORY/icons/hicolor/256x256/apps/
 cp -r ../config/kitty $CONFIG_DIRECTORY
 
+# Install tealdeer
+last_tldr_version=$(curl https://api.github.com/repos/tealdeer-rs/tealdeer/releases/latest | jq -r .name | awk '{print $2}')
+wget "https://github.com/tealdeer-rs/tealdeer/releases/download/v$last_tldr_version/tealdeer-linux-x86_64-musl" -O "$BIN_DIRECTORY/tldr"
+chmod +x "$BIN_DIRECTORY/tldr"
+wget "https://github.com/tealdeer-rs/tealdeer/releases/download/v$last_tldr_version/completions_fish" -O "$CONFIG_DIRECTORY/fish/functions"
+
 # Config fish
 cp -r ../config/fish $CONFIG_DIRECTORY
 chmod +x -R $BIN_DIRECTORY
