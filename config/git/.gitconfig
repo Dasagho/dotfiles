@@ -3,6 +3,8 @@
 	name = David
 [init]
 	defaultBranch = main
+[pull]
+  rebase = true
 [safe]
 	directory = /home/david/.cache/paru/clone/auto-cpufreq/src/opt/auto-cpufreq/
 [alias]
@@ -13,7 +15,7 @@
     	df = diff
     	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
 [core]
-	editor = vim
+	editor = nvim
 [diff]
 	tool = vimdiff
 [merge]
