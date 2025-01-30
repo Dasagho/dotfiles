@@ -28,8 +28,10 @@ last_kitty_version=$(curl https://api.github.com/repos/kovidgoyal/kitty/releases
 wget "https://github.com/kovidgoyal/kitty/releases/download/v$last_kitty_version/kitty-$last_kitty_version-x86_64.txz" -O "$INSTALL_DIRECTORY/kitty.txz"
 mkdir -p "$INSTALL_DIRECTORY/kitty" && tar xvf "$INSTALL_DIRECTORY/kitty.txz" --directory "$INSTALL_DIRECTORY/kitty"
 ln -sf "$INSTALL_DIRECTORY/kitty/bin/kitty" "$BIN_DIRECTORY/kitty"
-cp ./desktop/kitty/kitty.desktop $INSTALL_DIRECTORY/applications
-cp ./desktop/kitty/icon/kitty.png $INSTALL_DIRECTORY/icons/hicolor/256x256/apps/
+mkdir -p "$INSTALL_DIRECTORY/applications"
+mkdir -p "$INSTALL_DIRECTORY/icons/hicolor/256x256/apps/"
+cp ./desktop/kitty/kitty.desktop "$INSTALL_DIRECTORY/applications"
+cp ./desktop/kitty/icon/kitty.png "$INSTALL_DIRECTORY/icons/hicolor/256x256/apps/"
 cp -r ../config/kitty $CONFIG_DIRECTORY
 
 # Install fnm
