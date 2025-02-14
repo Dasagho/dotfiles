@@ -25,7 +25,8 @@ return {
       "pyright",
       "sqls",
       "yamlls",
-      "intelephense",
+      -- "intelephense",
+      "phpactor",
       "bashls",
       "emmet_ls",
       "gopls",
@@ -77,7 +78,7 @@ return {
           },
           workspace = {
             library = vim.api.nvim_get_runtime_file("", true), -- Archivos de Neovim
-            checkThirdParty = false, -- Desactiva la advertencia de terceros
+            checkThirdParty = false,                           -- Desactiva la advertencia de terceros
           },
           telemetry = {
             enable = false, -- Desactiva la telemetría

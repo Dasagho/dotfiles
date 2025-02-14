@@ -37,3 +37,18 @@ vim.api.nvim_command "autocmd FileType * setlocal formatoptions-=c"
 -- Opcionalmente, también puedes desactivar otras opciones relacionadas:
 vim.api.nvim_command "autocmd FileType * setlocal formatoptions-=r" -- Evita que continúe comentarios con el flag 'r'
 vim.api.nvim_command "autocmd FileType * setlocal formatoptions-=o" -- Evita que se añada el comentario al usar 'o' o 'O'
+
+
+-- Autocomando para limpiar todos los buffers al salir de Neovim
+vim.api.nvim_create_autocmd("VimLeavePre", {
+  callback = function()
+    -- Cierra todos los buffers sin guardar (forzado)
+    vim.cmd("%bd | e# | bd#")
+  end,
+  desc = "Cerrar todos los buffers excepto el actual al salir de Neovim",
+})
+
+vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+  pattern = "docker-compose*.{yml,yaml}",
+  command = "set filetype=yaml.docker-compose",
+})
