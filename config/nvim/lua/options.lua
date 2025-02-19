@@ -48,6 +48,10 @@ vim.api.nvim_create_autocmd("VimLeavePre", {
   desc = "Cerrar todos los buffers excepto el actual al salir de Neovim",
 })
 
+vim.defer_fn(function()
+  vim.lsp.codelens.refresh()
+end, 5000)
+
 vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
   pattern = "docker-compose*.{yml,yaml}",
   command = "set filetype=yaml.docker-compose",

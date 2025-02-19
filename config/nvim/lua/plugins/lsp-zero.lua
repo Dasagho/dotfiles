@@ -9,6 +9,7 @@ return {
   },
   config = function()
     local lsp = require "lsp-zero"
+    local home = os.getenv("HOME")
 
     -- Lista de servidores que estás usando
     local servers = {
@@ -109,21 +110,84 @@ return {
       },
     })
 
+    local java_home = home .. "/.sdkman/candidates/java/current"
+
     lsp.configure("jdtls", {
+      cmd = {
+        "java",
+        "-Declipse.application=org.eclipse.jdt.ls.core.id1",
+        "-Dosgi.bundles.defaultStartLevel=4",
+        "-Declipse.product=org.eclipse.jdt.ls.core.product",
+        "-Dlog.protocol=true",
+        "-Dlog.level=ALL",
+        "-Xmx2G", -- Ajusta la memoria según tu sistema
+        "--add-modules=ALL-SYSTEM",
+        "--add-opens", "java.base/java.util=ALL-UNNAMED",
+        "--add-opens", "java.base/java.lang=ALL-UNNAMED",
+        -- Usamos vim.fn.glob para resolver el wildcard del launcher
+        "-jar", vim.fn.glob(home .. "/.local/share/nvim/mason/packages/jdtls/plugins/org.eclipse.equinox.launcher_*.jar",
+        1),
+        "-configuration", home .. "/.local/share/nvim/mason/packages/jdtls/config_linux",
+        -- El workspace se crea en función del directorio actual
+        "-data", home .. "/.cache/jdtls/workspace/" .. vim.fn.fnamemodify(vim.fn.getcwd(), ":p:h:t"),
+      },
+
+      -- Se detecta el proyecto mediante la presencia de gradlew, mvnw o .git
+      root_dir = require("lspconfig.util").root_pattern("gradlew", "mvnw", ".git"),
+
       settings = {
         java = {
-          implementationsCodeLens = {
-            enabled = true,
+          -- Habilitamos CodeLens para referencias e implementaciones (muy útiles en proyectos Spring Boot y Maven)
+          referencesCodeLens = { enabled = true },
+          implementationsCodeLens = { enabled = true },
+          -- Formateo y ayuda de firma
+          format = { enabled = true },
+          signatureHelp = { enabled = true },
+          -- Usamos fernflower como decompilador (útil para ver código fuente de dependencias)
+          contentProvider = { preferred = "fernflower" },
+
+          -- Configuración específica para proyectos Maven:
+          maven = {
+            downloadSources = true, -- Descarga las fuentes de las dependencias para mejorar el autocompletado
+            updateSnapshots = true, -- Actualiza las versiones snapshot
           },
-          referencesCodeLens = {
-            enabled = true,
+
+          -- (Opcional) Si deseas marcar que trabajas con Spring Boot, puedes incluir una sección spring;
+          -- actualmente jdtls reconoce los proyectos Spring Boot siempre que tengan los starters necesarios.
+          spring = {
+            boot = {
+              enabled = true,
+              -- Aquí podrías agregar más opciones si en el futuro jdtls o sus plugins lo requieren
+            },
+          },
+
+          -- Configuración de los runtimes: se usa la versión de Java instalada vía SDKMAN
+          configuration = {
+            runtimes = {
+              {
+                name = "Default",
+                path = java_home, -- Asegúrate de que 'java_home' esté correctamente definido (por ejemplo, con SDKMAN)
+              },
+            },
           },
         },
       },
-    })
 
-    vim.lsp.handlers["textDocument/codeAction"] = vim.lsp.with(vim.lsp.handlers.codeAction, {
-      signs = false,
+      on_attach = function(client, bufnr)
+        -- Configuración para DAP en Java, permitiendo el hot code replace
+        require("jdtls").setup_dap({ hotcodereplace = "auto" })
+        -- Se añaden los comandos de jdtls (por ejemplo, para organizar imports o ejecutar acciones específicas)
+        require("jdtls").setup.add_commands()
+        -- Se refresca CodeLens en eventos comunes
+        if client.server_capabilities.codeLensProvider then
+          vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "InsertLeave" }, {
+            buffer = bufnr,
+            callback = function()
+              vim.lsp.codelens.refresh()
+            end,
+          })
+        end
+      end,
     })
 
     -- Configurar los diagnósticos
@@ -131,12 +195,10 @@ return {
       virtual_text = false,
       signs = true,
       update_in_insert = false,
-      underline = false,
-      severity_sort = false,
-      float = false,
+      severity_sort = true,
     }
 
-    local signs = { Error = "E", Warn = "W", Hint = "A", Info = "I" }
+    local signs = { Error = "", Warn = "", Hint = "", Info = "" }
     for type, icon in pairs(signs) do
       local hl = "DiagnosticSign" .. type
       vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = hl })
