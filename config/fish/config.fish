@@ -23,6 +23,8 @@ if status is-interactive
     set -g theme_display_git_default_branch yes
     set -g theme_date_format +%c
     set -g theme_date_format +%H:%M:%S
+    set -g theme_use_abbreviated_branch_name yes
+    set -g theme_display_git yes
 
     # fish_add_path "/home/ayuda104/.local/share/fnm"
 
@@ -36,6 +38,9 @@ if status is-interactive
     end
 
     set -g __sdkman_custom_dir "$HOME/.sdkman"
+    fish_add_path "$HOME/.sdkman/candidates/maven/current/bin"
+    fish_add_path "$HOME/.sdkman/candidates/java/current/bin"
+    fish_add_path "$HOME/.sdkman/candidates/springboot/current/bin"
     fnm env | source
 end
 
@@ -46,8 +51,8 @@ end
 # set --export PATH $BUN_INSTALL/bin $PATH
 
 # pnpm
-# set -gx PNPM_HOME "/home/ayuda104/.local/share/pnpm"
-# if not string match -q -- $PNPM_HOME $PATH
-#   set -gx PATH "$PNPM_HOME" $PATH
-# end
+set -gx PNPM_HOME "/home/ayuda104/.local/share/pnpm"
+if not string match -q -- $PNPM_HOME $PATH
+  set -gx PATH "$PNPM_HOME" $PATH
+end
 # pnpm end
