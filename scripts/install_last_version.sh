@@ -58,4 +58,4 @@ fc-cache
 # Install ohmyfish
 rm -rf "$INSTALL_DIRECTORY/omf"
 curl https://raw.githubusercontent.com/oh-my-fish/oh-my-fish/master/bin/install | fish
-fish --command "omf install bobthefish"
+fish --command "omf install bobthefish && fisher install reitzig/sdkman-for-fish"
