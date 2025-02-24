@@ -61,6 +61,22 @@ install_tealdeer() {
   wget "https://github.com/tealdeer-rs/tealdeer/releases/download/v$last_tldr_version/completions_fish" -O "$CONFIG_DIRECTORY/fish/functions"
 }
 
+install_nvim() {
+  # Clean old install
+  rm -rf "$HOME/.config/nvim"
+  rm -f "$INSTALL_DIRECTORY/nvim.tar.gz"
+  rm -f "$INSTALL_DIRECTORY/nvim"
+
+  # Install nvim
+  last_nvim_version=$(curl https://api.github.com/repos/neovim/neovim/releases/latest | jq -r .name | awk '{print $2}')
+  wget "https://github.com/neovim/neovim/releases/download/v$last_nvim_version/nvim-linux-x86_64.tar.gz" -O "$INSTALL_DIRECTORY/nvim.tar.gz"
+  tar xfz "$INSTALL_DIRECTORY/nvim.tar.gz" --directory "$INSTALL_DIRECTORY"
+  mv "$INSTALL_DIRECTORY/nvim-linux-x86_64" "$INSTALL_DIRECTORY/nvim"
+  ln -sf "$INSTALL_DIRECTORY/nvim/bin/nvim" "$BIN_DIRECTORY/nvim"
+
+  # Config nvim
+  cp -r ./config/nvim "$HOME/.config"
+}
 # Install fonts
 mkdir "$INSTALL_DIRECTORY/fonts"
 cp ../fonts/* "$INSTALL_DIRECTORY/fonts"
@@ -93,6 +109,8 @@ if [ ! -d "$HOME/.sdkman" ]; then
 else
   echo "sdkman already installed"
 fi
+
+install_nvim
 
 install_and_config_kitty
 
