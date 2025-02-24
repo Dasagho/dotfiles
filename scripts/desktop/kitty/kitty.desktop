@@ -2,7 +2,7 @@
 Version=1.0
 Name=Kitty
 Comment=Fast, feature-rich, GPU-based terminal emulator
-Exec=/home/ayuda104/.local/bin/kitty --title "kitty"
+Exec=kitty --title "kitty"
 Icon=kitty
 Terminal=false
 Type=Application
