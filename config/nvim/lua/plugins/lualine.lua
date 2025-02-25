@@ -119,10 +119,22 @@ return {
     })
 
     require("lualine").setup {
+      -- Barra superior
+      tabline = {
+        lualine_a = {},
+        lualine_b = {},
+        lualine_c = {},
+        lualine_x = {},
+        lualine_y = {},
+        lualine_z = {}
+      },
       sections = {
         lualine_a = { "mode" },
         lualine_b = { "diff", "diagnostics" },
-        lualine_c = { "filename" },
+        lualine_c = { {
+          'filename',
+          path = 1, -- 0: solo nombre, 1: ruta relativa, 2: ruta absoluta
+        }, },
         lualine_x = {
           {
             function()
