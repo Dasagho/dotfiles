@@ -59,15 +59,16 @@ return {
           "--glob",
           "!.git/",
         },
-        layout_strategy = "horizontal", -- Usar diseño horizontal
+
+        layout_strategy = "vertical",
         layout_config = {
-          horizontal = {
-            -- Establece el tamaño total de la ventana de Telescope
-            width = 0.95,         -- El 90% del ancho de la pantalla
-            height = 0.95,        -- El 80% de la altura de la pantalla
-            preview_cutoff = 120, -- Si la ventana es más pequeña que esto, no se muestra la previsualización
-            -- Ajusta el ancho relativo de la previsualización y la lista de archivos
-            preview_width = 0.55, -- La previsualización ocupará el 60% del ancho de la ventana
+          vertical = {
+            width = 0.99,            -- Usa casi todo el ancho de la pantalla
+            height = 0.99,           -- Usa casi todo el alto de la pantalla
+            preview_cutoff = 0,      -- Siempre mostrar la previsualización
+            mirror = true,           -- La previsualización estará debajo de la lista de archivos
+            preview_height = 0.6,    -- La previsualización ocupará el 60% de la pantalla
+            prompt_position = "top", -- Barra de búsqueda arriba
           },
         },
       },
@@ -82,11 +83,4 @@ return {
     require("telescope").load_extension "fzf"
     require("telescope").load_extension "ui-select"
   end,
-
-  defaults = {
-    sorting_strategy = "ascending",
-    layout_config = {
-      horizontal = { prompt_position = "top" },
-    },
-  },
 }
