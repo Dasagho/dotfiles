@@ -8,9 +8,9 @@ return {
         sign = false,
         virtual_text = false,
       },
-      server_filetype_map = {
-        typescript = "typescript",
-      },
+      symbol_in_winbar = {
+        enable = false,
+      }
     }
 
     vim.keymap.set(
