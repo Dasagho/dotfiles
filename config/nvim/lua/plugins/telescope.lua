@@ -12,7 +12,9 @@ return {
   cmd = "Telescope",
   config = function()
     local map = vim.api.nvim_set_keymap
-    local opts = { noremap = true, silent = true }
+    local actions = require("telescope.actions")
+    local action_layout = require("telescope.actions.layout")
+
 
     map("n", "<leader><Space>",
       [[:lua require('telescope.builtin').find_files({hidden = true, file_ignore_patterns = { "%.mp3$", "%.wav$", "%.png$", "%.jpg$", "%.jpeg$", "%.gif$", "%.bmp$", "%.mp4$", "%.avi$", "%.mkv$", "%.webp$", "^%.git/", "^%node_modules/"}, find_command = { "rg", "--files", "--hidden", "--no-ignore" }})<CR>]],
@@ -77,6 +79,16 @@ return {
         ["ui-select"] = {
           require("telescope.themes").get_dropdown {},
         },
+      },
+      mappings = {
+        i = {
+          ["<esc>"] = actions.close,
+          ["<M-p>"] = action_layout.toggle_preview,
+        },
+      },
+
+      preview = {
+        filesize_limit = 0.2, -- MB
       },
     }
 
