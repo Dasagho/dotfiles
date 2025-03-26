@@ -96,6 +96,57 @@ return {
       linter_value = "󰁨 " .. table.concat(linters, ",")
     end
 
+    local function get_buffer_icon(buf)
+      local filename = vim.fn.bufname(buf)
+      local ft = vim.bo[buf].filetype
+      if ft == "typescriptreact" then
+        ft = "tsx"
+      end
+      local icon, hl = require('nvim-web-devicons').get_icon(filename, ft, { default = true })
+      return icon, hl
+    end
+
+    local function custom_tabline()
+      local s = ""
+      local curr_tab = vim.fn.tabpagenr()
+      local num_tabs = vim.fn.tabpagenr('$')
+      for i = 1, num_tabs do
+        local buflist = vim.fn.tabpagebuflist(i)
+        local winnr = vim.fn.tabpagewinnr(i)
+        local buf = buflist[winnr]
+        local filename = vim.fn.bufname(buf)
+
+        if filename == "" then
+          filename = "[No Name]"
+        else
+          filename = vim.fn.fnamemodify(filename, ":t")
+        end
+        local icon, icon_hl = get_buffer_icon(buf) -- Aplica un highlight distinto si es la pestaña actual
+
+        -- Decide el color de fondo según si la pestaña está activa o inactiva
+        local bg_hl_active = "%#lualine_b_normal#"
+        local bg_hl_inactive = "%#lualine_b_inactive#"
+
+        if i == curr_tab then
+          s = s
+              .. bg_hl_active .. " " -- Usa color secundario activo para el fondo
+              .. icon                -- Ícono con su color original
+              .. bg_hl_active .. " " .. filename .. " "
+        else
+          s = s
+              .. bg_hl_inactive .. " " -- Usa color secundario inactivo para el fondo
+              .. icon
+              .. bg_hl_inactive .. " " .. filename .. " "
+        end
+
+        -- Separador entre pestañas
+        if i < num_tabs then
+          s = s .. bg_hl_inactive .. " "
+        end
+      end
+      return s
+    end
+
     -- Autocomandos para actualizar valores asíncronamente
     vim.api.nvim_create_autocmd("LspAttach", {
       callback = function()
@@ -121,14 +172,14 @@ return {
     vim.opt.laststatus = 3
     require("lualine").setup {
       -- Barra superior
-      -- tabline = {
-      --   lualine_a = {},
-      --   lualine_b = {},
-      --   lualine_c = {},
-      --   lualine_x = {},
-      --   lualine_y = {},
-      --   lualine_z = {}
-      -- },
+      tabline = {
+        lualine_a = { custom_tabline },
+        --   lualine_b = {},
+        --   lualine_c = {},
+        --   lualine_x = {},
+        --   lualine_y = {},
+        --   lualine_z = {}
+      },
       sections = {
         lualine_a = { "mode" },
         lualine_b = { "diff", "diagnostics" },
