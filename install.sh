@@ -69,7 +69,7 @@ install_nvim() {
 
   # Install nvim
   last_nvim_version=$(curl https://api.github.com/repos/neovim/neovim/releases/latest | jq -r .name | awk '{print $2}')
-  wget "https://github.com/neovim/neovim/releases/download/v$last_nvim_version/nvim-linux-x86_64.tar.gz" -O "$INSTALL_DIRECTORY/nvim.tar.gz"
+  wget "https://github.com/neovim/neovim/releases/download/$last_nvim_version/nvim-linux-x86_64.tar.gz" -O "$INSTALL_DIRECTORY/nvim.tar.gz"
   tar xfz "$INSTALL_DIRECTORY/nvim.tar.gz" --directory "$INSTALL_DIRECTORY"
   mv "$INSTALL_DIRECTORY/nvim-linux-x86_64" "$INSTALL_DIRECTORY/nvim"
   ln -sf "$INSTALL_DIRECTORY/nvim/bin/nvim" "$BIN_DIRECTORY/nvim"
@@ -118,7 +118,7 @@ install_tealdeer
 
 # Config fish
 rm -rf "$CONFIG_DIRECTORY/fish"
-cp -r ../config/fish "$CONFIG_DIRECTORY"
+cp -r ./config/fish "$CONFIG_DIRECTORY"
 
 # Install ohmyfish
 rm -rf "$INSTALL_DIRECTORY/omf"
