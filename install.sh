@@ -64,8 +64,8 @@ install_tealdeer() {
 install_nvim() {
   # Clean old install
   rm -rf "$HOME/.config/nvim"
-  rm -f "$INSTALL_DIRECTORY/nvim.tar.gz"
-  rm -f "$INSTALL_DIRECTORY/nvim"
+  rm -rf "$INSTALL_DIRECTORY/nvim.tar.gz"
+  rm -rf "$INSTALL_DIRECTORY/nvim"
 
   # Install nvim
   last_nvim_version=$(curl https://api.github.com/repos/neovim/neovim/releases/latest | jq -r .name | awk '{print $2}')
@@ -79,7 +79,7 @@ install_nvim() {
 }
 # Install fonts
 mkdir "$INSTALL_DIRECTORY/fonts"
-cp ../fonts/* "$INSTALL_DIRECTORY/fonts"
+cp ./fonts/* "$INSTALL_DIRECTORY/fonts"
 fc-cache
 
 # Install tpm
@@ -108,6 +108,13 @@ if [ ! -d "$HOME/.sdkman" ]; then
   curl -s "https://get.sdkman.io" | bash
 else
   echo "sdkman already installed"
+fi
+
+# Install deno
+if [ ! -d "$HOME/.deno"]; then
+  curl -fsSL https://deno.land/install.sh | sh
+else
+  echo "deno already installed"
 fi
 
 install_nvim
