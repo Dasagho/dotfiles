@@ -11,7 +11,8 @@ vim.opt.smartcase = true
 vim.opt.wildmenu = false
 vim.opt.signcolumn = "yes:1" -- Fija la columna de signos con un ancho de 2
 vim.opt.cmdheight = 0
-vim.opt.showtabline = 0
+vim.opt.swapfile = false
+vim.opt.showtabline = 1
 
 -- Habilita el undo persistente
 vim.o.undofile = true
