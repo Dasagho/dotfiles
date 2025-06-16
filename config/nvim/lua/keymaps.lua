@@ -41,6 +41,3 @@ map("n", "<leader>bb", ":Neotree toggle<CR>", { noremap = true, silent = true, d
 map("n", "<C-t>", "tabnew", opts)
 map("n", "<S-h>", ":tabprevious<CR>", { noremap = true, silent = true, desc = "Prev tab" })
 map("n", "<S-l>", ":tabnext<CR>", { noremap = true, silent = true, desc = "Next tab" })
-
-vim.keymap.set('n', '<A-h>', ':tabprevious<CR>', { noremap = true, silent = true, desc = 'Left tab' })
-vim.keymap.set('n', '<A-l>', ':tabnext<CR>', { noremap = true, silent = true, desc = 'Right tab' })
