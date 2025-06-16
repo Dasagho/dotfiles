@@ -45,6 +45,7 @@ return {
         css = { "prettier" },
         sh = { "shfmt" },
         go = { "gomodifytags", "goimports" },
+        tex = { "tex-fmt" }
       },
 
       format_on_save = function(bufnr)

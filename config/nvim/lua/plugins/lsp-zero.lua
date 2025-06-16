@@ -190,6 +190,46 @@ return {
       end,
     })
 
+    lsp.configure("ltex", {
+      settings = {
+        ltex = {
+
+          language = "es",
+          motherTongue = "es",
+          additionalRules = {
+            enablePickyRules = true,
+            motherTongue = "es",
+          },
+          disabledRules = {
+            ["es"] = { "ES_PUNCTUATION_QUESTION_MARK" }, -- 👈 regla exacta desactivada
+          },
+          dictionary = {
+            ["es"] = { "Neovim", "Latexmk", "David" },
+          },
+        },
+      },
+      filetypes = { "tex", "markdown", "plaintex" },
+    })
+
+    lsp.configure("texlab", {
+      settings = {
+        texlab = {
+          build = {
+            executable = "latexmk",
+            args = { "-pdf", "-interaction=nonstopmode", "-synctex=1", "%f" },
+            onSave = true,
+          },
+          forwardSearch = {
+            executable = "okular",
+            args = {
+              "--unique", "file:%p#src:%l:%f"
+            },
+          },
+        },
+      },
+    })
+
+
     -- Configurar los diagnósticos
     vim.diagnostic.config {
       virtual_text = false,
