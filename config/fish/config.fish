@@ -9,7 +9,6 @@ if status is-interactive
   alias dconn='docker ps --format "{{.Names}}" | fzf | xargs -o -I {} docker exec -it {} /bin/bash'
   alias kitty='kitty --title "kitty"'
 
-  # set -gx PATH $HOME/Scripts $PATH
   set -g theme_nerd_fonts yes
   set -x VIRTUAL_ENV_DISABLE_PROMPT 1
   set -g theme_color_scheme dracula
@@ -26,29 +25,29 @@ if status is-interactive
   set -g theme_use_abbreviated_branch_name yes
   set -g theme_display_git yes
 
-  # set -Ux FLYCTL_INSTALL "$HOME/.fly"
-  # set -gx PATH "$FLYCTL_INSTALL/bin" $PATH
-  set -gx PATH  "$HOME/.local/share/nvim/mason/bin" $PATH
+  set -Ux PYENV_ROOT $HOME/.pyenv
+  test -d $PYENV_ROOT/bin; and fish_add_path $PYENV_ROOT/bin
+  pyenv init - fish | source
 
   set -g __sdkman_custom_dir "$HOME/.sdkman"
   set -gx PATH "$HOME/.sdkman/candidates/maven/current/bin" $PATH
   set -gx PATH "$HOME/.sdkman/candidates/java/current/bin" $PATH
   set -gx PATH "$HOME/.sdkman/candidates/springboot/current/bin" $PATH
   if not contains "$HOME/.local/bin" $PATH
-    set -gx PATH "$HOME/.local/bin" $PATH
+	  set -gx PATH "$HOME/.local/bin" $PATH
   end
 
   fnm env | source
-end
-# source ~/.config/fish/functions/git_alias.fish
 
-# bun
-# set --export BUN_INSTALL "$HOME/.bun"
-# set --export PATH $BUN_INSTALL/bin $PATH
+  set --export BUN_INSTALL "$HOME/.bun"
+  set --export PATH $BUN_INSTALL/bin $PATH
 
-# pnpm
-set -gx PNPM_HOME "/home/david/.local/share/pnpm"
-if not string match -q -- $PNPM_HOME $PATH
-  set -gx PATH "$PNPM_HOME" $PATH
+  # pnpm
+  set -gx PNPM_HOME "/home/david/.local/share/pnpm"
+  if not string match -q -- $PNPM_HOME $PATH
+	  set -gx PATH "$PNPM_HOME" $PATH
+  end
+  # pnpm end
 end
-# pnpm end
+
+

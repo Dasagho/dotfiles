@@ -52,7 +52,6 @@ install_and_config_kitty() {
 install_tealdeer() {
   # Reset binary and functions
   rm -f "$BIN_DIRECTORY/tldr"
-  rm -rf "$CONFIG_DIRECTORY/fish/functions"
 
   # Download and install
   last_tldr_version=$(curl https://api.github.com/repos/tealdeer-rs/tealdeer/releases/latest | jq -r .name | awk '{print $2}')
@@ -77,6 +76,7 @@ install_nvim() {
   # Config nvim
   cp -r ./config/nvim "$HOME/.config"
 }
+
 # Install fonts
 mkdir "$INSTALL_DIRECTORY/fonts"
 cp ./fonts/* "$INSTALL_DIRECTORY/fonts"
@@ -90,6 +90,7 @@ else
 fi
 
 # Install fnm
+if [ -x "$(which fnm)" ]; then
 if [ ! -d "$HOME/.local/share/fnm" ]; then
   curl -fsSL https://fnm.vercel.app/install | bash
 else
@@ -97,6 +98,7 @@ else
 fi
 
 # Install PNPM
+if [ -x "$(which pnpm)" ]; then
 if [ ! -d "$HOME/.local/share/pnpm" ]; then
   curl -fsSL https://get.pnpm.io/install.sh | sh -
 else
@@ -104,17 +106,31 @@ else
 fi
 
 # Install sdkman
-if [ ! -d "$HOME/.sdkman" ]; then
+if [ -x "$(which sdk)" ]; then
   curl -s "https://get.sdkman.io" | bash
 else
   echo "sdkman already installed"
 fi
 
 # Install deno
-if [ ! -d "$HOME/.deno" ]; then
+if [ -x "$(which deno)" ]; then
   curl -fsSL https://deno.land/install.sh | sh
 else
   echo "deno already installed"
+fi
+
+# Install bun
+if [ -x "$(which bun)" ]; then
+    curl -fsSL https://bun.sh/install | bash
+else
+    echo "bun already installed"
+fi
+
+# Install pyenv
+if [ ! -d "$HOME/.pyenv" ]; then
+    curl -fsSL https://pyenv.run | bash
+else
+    echo "pyenv already installed"
 fi
 
 install_nvim
