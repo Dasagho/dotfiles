@@ -25,9 +25,11 @@ if status is-interactive
   set -g theme_use_abbreviated_branch_name yes
   set -g theme_display_git yes
 
-  set -Ux PYENV_ROOT $HOME/.pyenv
-  test -d $PYENV_ROOT/bin; and fish_add_path $PYENV_ROOT/bin
-  pyenv init - fish | source
+  set -gx PYENV_ROOT $HOME/.pyenv
+  if test -d $PYENV_ROOT/bin
+      set -gx PATH $PYENV_ROOT/bin $PATH
+  end
+  pyenv init - | source
 
   set -g __sdkman_custom_dir "$HOME/.sdkman"
   set -gx PATH "$HOME/.sdkman/candidates/maven/current/bin" $PATH
