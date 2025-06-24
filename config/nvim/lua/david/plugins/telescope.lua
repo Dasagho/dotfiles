@@ -126,6 +126,38 @@ return {
       --   },
       -- },
       -- pickers = {}
+      defaults = {
+        file_ignore_patterns = {},
+        vimgrep_arguments = {
+          'rg',
+          '--color=never',
+          '--no-heading',
+          '--with-filename',
+          '--line-number',
+          '--column',
+          '--smart-case',
+          '--hidden', -- Sigue buscando archivos ocultos
+          '--glob',
+          '!.git/',
+        },
+
+        layout_strategy = 'vertical',
+        layout_config = {
+          vertical = {
+            width = 0.99, -- Usa casi todo el ancho de la pantalla
+            height = 0.99, -- Usa casi todo el alto de la pantalla
+            preview_cutoff = 0, -- Siempre mostrar la previsualización
+            mirror = true, -- La previsualización estará debajo de la lista de archivos
+            preview_height = 0.6, -- La previsualización ocupará el 60% de la pantalla
+            prompt_position = 'top', -- Barra de búsqueda arriba
+          },
+        },
+      },
+
+      preview = {
+        filesize_limit = 0.2, -- MB
+      },
+
       extensions = {
         ['ui-select'] = {
           require('telescope.themes').get_dropdown(),
