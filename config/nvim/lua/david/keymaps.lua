@@ -36,6 +36,12 @@ vim.keymap.set('n', '<A-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 -- vim.keymap.set("n", "<C-S-k>", "<C-w>K", { desc = "Move window to the upper" })
 
 -- ===============================
+-- 📑 Tab navigation (Shift)
+-- ===============================
+vim.keymap.set('n', '<S-h>', 'gT', { desc = 'Go to previous tab' })
+vim.keymap.set('n', '<S-l>', 'gt', { desc = 'Go to next tab' })
+
+-- ===============================
 -- ✨ Highlight on yank
 -- ===============================
 vim.api.nvim_create_autocmd('TextYankPost', {
