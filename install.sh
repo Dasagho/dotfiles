@@ -78,7 +78,7 @@ install_nvim() {
 }
 
 # Install fonts
-mkdir "$INSTALL_DIRECTORY/fonts"
+mkdir -p "$INSTALL_DIRECTORY/fonts"
 cp ./fonts/* "$INSTALL_DIRECTORY/fonts"
 fc-cache
 
@@ -91,7 +91,6 @@ fi
 
 # Install fnm
 if [ -x "$(which fnm)" ]; then
-if [ ! -d "$HOME/.local/share/fnm" ]; then
   curl -fsSL https://fnm.vercel.app/install | bash
 else
   echo "fnm already installed"
@@ -99,7 +98,6 @@ fi
 
 # Install PNPM
 if [ -x "$(which pnpm)" ]; then
-if [ ! -d "$HOME/.local/share/pnpm" ]; then
   curl -fsSL https://get.pnpm.io/install.sh | sh -
 else
   echo "pnpm already installed"
