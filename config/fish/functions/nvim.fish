@@ -1,10 +1,10 @@
 function nvim
-    # Si la variable TMUX NO está definida...
     if not set -q TMUX
-        # → arrancamos tmux y ejecutamos nvim con todos los argumentos
-        tmux new-session -As dev nvim $argv
+        # Start (or attach to) session “dev”, then run nvim; keep shell afterwards
+        tmux new-session -d -As dev      # create/attach, but detached
+        tmux send-keys   -t dev "nvim $argv" C-m
+        tmux attach      -t dev          # now attach
     else
-        # → ya estamos en tmux, llamamos al nvim “real”
         command nvim $argv
     end
 end
