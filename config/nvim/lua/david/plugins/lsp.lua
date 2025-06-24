@@ -182,6 +182,18 @@ return {
       },
     }
 
+		local ensured_installed_ft = {
+			prettier = {},
+			prettierd = {},
+			stylua = {},
+			black = {},
+			isort = {}
+		}
+
+		local ensured_installed_lint = {
+			eslint_d = {}
+		}
+
     -- Ensure the servers and tools above are installed
     --
     -- To check the current status of installed tools and/or manually install
@@ -199,11 +211,14 @@ return {
     vim.list_extend(ensure_installed, {
       'stylua', -- Used to format Lua code
     })
+		vim.list_extend(ensure_installed, ensured_installed_ft)
+		vim.list_extend(ensure_installed, ensured_installed_lint)
+
     require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
     require('mason-lspconfig').setup {
       ensure_installed = {}, -- explicitly set to an empty table (Kickstart populates installs via mason-tool-installer)
-      automatic_installation = false,
+      automatic_installation = true,
       handlers = {
         function(server_name)
           local server = servers[server_name] or {}

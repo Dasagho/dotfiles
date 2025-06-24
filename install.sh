@@ -16,11 +16,32 @@ mkdir -p "$DESKTOP_APPS_DIRECTORY"
 ICONS_DIRECTORY=$INSTALL_DIRECTORY/icons/hicolor/256x256/apps/
 mkdir -p "$ICONS_DIRECTORY"
 
-# Función para verificar un paquete
+color_echo() {
+  local type="$1"
+  shift
+  local message="$*"
+
+  local RED="\033[1;31m"
+  local BLUE="\033[1;94m"
+  local RESET="\033[0m"
+
+  case "$type" in
+    info)
+      echo -e "${BLUE}[INFO] ${message}${RESET}\n"
+      ;;
+    error)
+      echo -e "${RED}[ERROR] ${message}${RESET}\n" >&2
+      ;;
+    *)
+      echo -e "[UNKNOWN] ${message}\n"
+      ;;
+  esac
+}
+
 check_installed_package() {
   local package=$1
   if ! command -v "$package" &>/dev/null; then
-    echo "Error: El paquete '$package' no está instalado." >&2
+		color_echo error "Error: El paquete '$package' no está instalado." >&2
     exit 1
   fi
 }
@@ -86,49 +107,49 @@ fc-cache
 if [ ! -d "$HOME/.tmux/plugins/tpm" ]; then
   git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
 else
-  echo "TPM already installed"
+  color_echo info "TPM already installed"
 fi
 
 # Install fnm
 if [ -x "$(which fnm)" ]; then
-  curl -fsSL https://fnm.vercel.app/install | bash
+  color_echo info "fnm already installed"
 else
-  echo "fnm already installed"
+  curl -fsSL https://fnm.vercel.app/install | bash
 fi
 
 # Install PNPM
 if [ -x "$(which pnpm)" ]; then
-  curl -fsSL https://get.pnpm.io/install.sh | sh -
+  color_echo info "pnpm already installed"
 else
-  echo "pnpm already installed"
+  curl -fsSL https://get.pnpm.io/install.sh | sh -
 fi
 
 # Install sdkman
 if [ -x "$(which sdk)" ]; then
-  curl -s "https://get.sdkman.io" | bash
+	color_echo info "sdkman already installed"
 else
-  echo "sdkman already installed"
+  curl -s "https://get.sdkman.io" | bash
 fi
 
 # Install deno
 if [ -x "$(which deno)" ]; then
-  curl -fsSL https://deno.land/install.sh | sh
+  color_echo info "deno already installed"
 else
-  echo "deno already installed"
+  curl -fsSL https://deno.land/install.sh | sh
 fi
 
 # Install bun
 if [ -x "$(which bun)" ]; then
-    curl -fsSL https://bun.sh/install | bash
+    color_echo info "bun already installed"
 else
-    echo "bun already installed"
+    curl -fsSL https://bun.sh/install | bash
 fi
 
 # Install pyenv
 if [ ! -d "$HOME/.pyenv" ]; then
     curl -fsSL https://pyenv.run | bash
 else
-    echo "pyenv already installed"
+    color_echo info "pyenv already installed"
 fi
 
 install_nvim

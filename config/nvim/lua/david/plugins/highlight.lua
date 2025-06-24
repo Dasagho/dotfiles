@@ -40,9 +40,7 @@ return {
   config = function()
     require('nvim-treesitter').setup {
       ensure_installed = { 'bash', 'c', 'diff', 'html', 'lua', 'luadoc', 'markdown', 'markdown_inline', 'query', 'vim', 'vimdoc' },
-      -- Autoinstall languages that are not installed
       auto_install = true,
-      sync_install = false, -- don’t block the UI
 
       highlight = {
         enable = true,

@@ -35,6 +35,7 @@ if status is-interactive
   set -gx PATH "$HOME/.sdkman/candidates/maven/current/bin" $PATH
   set -gx PATH "$HOME/.sdkman/candidates/java/current/bin" $PATH
   set -gx PATH "$HOME/.sdkman/candidates/springboot/current/bin" $PATH
+	set -gx PATH "$HOME/.deno/bin" $PATH
   if not contains "$HOME/.local/bin" $PATH
 	  set -gx PATH "$HOME/.local/bin" $PATH
   end

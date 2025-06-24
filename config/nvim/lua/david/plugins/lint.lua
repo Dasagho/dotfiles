@@ -1,8 +1,4 @@
 return {
-
-  { -- Linting
-    'mfussenegger/nvim-lint',
-    event = { 'BufReadPre', 'BufNewFile' },
-    config = function() end,
-  },
+	'mfussenegger/nvim-lint',
+	event = { 'BufReadPre', 'BufNewFile' },
 }
