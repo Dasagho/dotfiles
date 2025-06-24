@@ -1,18 +1,18 @@
 local servers = {
-  clangd  = {},
-  gopls   = {},
+  clangd = {},
+  gopls = {},
   pyright = {},
   rust_analyzer = {},
-  ts_ls = {},        -- was “ts_ls”
-  html    = {},
-  cssls   = {},
-  jsonls  = {},
+  ts_ls = {},
+  html = {},
+  cssls = {},
+  jsonls = {},
   marksman = {},
   dockerls = {},
   docker_compose_language_service = {},
-  sqls     = {},
-  yamlls   = {},
-  bashls   = {},
+  sqls = {},
+  yamlls = {},
+  bashls = {},
   emmet_ls = {},
   phpactor = {},
   lua_ls = {
@@ -22,23 +22,27 @@ local servers = {
   },
 }
 
-local formatters = { 'prettier', 'prettierd', 'stylua', 'black', 'isort' }
-local linters    = { 'eslint_d' }
+local formatters = { 'prettierd', 'stylua', 'black', 'isort' }
+local linters = { 'eslint_d' }
+
+-- single authoritative list for mason-tool-installer *and* mason-lspconfig
+local ensure = vim.tbl_flatten { vim.tbl_keys(servers), formatters, linters }
 
 return {
   'neovim/nvim-lspconfig',
   event = { 'BufReadPre', 'BufNewFile' },
 
   dependencies = {
-    { 'williamboman/mason.nvim',               config = true },
+    { 'williamboman/mason.nvim', config = true, lazy = false },
     'williamboman/mason-lspconfig.nvim',
     {
       'WhoIsSethDaniel/mason-tool-installer.nvim',
+      lazy = false,
+      dependencies = 'williamboman/mason-lspconfig.nvim',
       opts = {
-        ensure_installed = vim.list_extend(
-          vim.list_extend(vim.tbl_keys(servers), formatters), linters
-        ),
-        run_on_start   = true,
+        ensure_installed = ensure,
+        start_delay = 3000,
+        run_on_start = true,
         debounce_hours = 24,
       },
     },
@@ -59,11 +63,7 @@ return {
       ensure_installed = vim.tbl_keys(servers),
       handlers = {
         function(server)
-          local opts = vim.tbl_deep_extend(
-            'force',
-            { capabilities = capabilities },
-            servers[server] or {}
-          )
+          local opts = vim.tbl_deep_extend('force', { capabilities = capabilities }, servers[server] or {})
           require('lspconfig')[server].setup(opts)
         end,
       },
@@ -79,13 +79,13 @@ return {
           vim.keymap.set(mode, lhs, rhs, { buffer = ev.buf, desc = 'LSP: ' .. desc })
         end
 
-        bmap('n', 'gd',  vim.lsp.buf.definition,               'definition')
-        bmap('n', 'gD',  vim.lsp.buf.declaration,              'declaration')
-        bmap('n', 'gi',  vim.lsp.buf.implementation,           'implementation')
-        bmap('n', 'gr',  require('telescope.builtin').lsp_references, 'references')
-        bmap('n', '<leader>rn', vim.lsp.buf.rename,            'rename symbol')
+        bmap('n', 'gd', vim.lsp.buf.definition, 'definition')
+        bmap('n', 'gD', vim.lsp.buf.declaration, 'declaration')
+        bmap('n', 'gi', vim.lsp.buf.implementation, 'implementation')
+        bmap('n', 'gr', require('telescope.builtin').lsp_references, 'references')
+        bmap('n', '<leader>rn', vim.lsp.buf.rename, 'rename symbol')
         bmap({ 'n', 'x' }, '<leader>ca', vim.lsp.buf.code_action, 'code action')
-        bmap('n', '<leader>ds', require('telescope.builtin').lsp_document_symbols,   'document symbols')
+        bmap('n', '<leader>ds', require('telescope.builtin').lsp_document_symbols, 'document symbols')
         bmap('n', '<leader>ws', require('telescope.builtin').lsp_dynamic_workspace_symbols, 'workspace symbols')
 
         if vim.lsp.inlay_hint then
@@ -101,10 +101,10 @@ return {
     ---------------------------------------------------------------------------
     vim.diagnostic.config {
       severity_sort = true,
-      underline     = { severity = vim.diagnostic.severity.ERROR },
-      signs         = vim.g.have_nerd_font and true or false,
-      virtual_text  = { spacing = 2, source = 'if_many' },
-      float         = { border = 'rounded', source = 'if_many' },
+      underline = { severity = vim.diagnostic.severity.ERROR },
+      signs = vim.g.have_nerd_font and true or false,
+      virtual_text = { spacing = 2, source = 'if_many' },
+      float = { border = 'rounded', source = 'if_many' },
     }
   end,
 }
