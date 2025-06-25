@@ -26,8 +26,8 @@ return {
     require('mason-nvim-dap').setup {
       automatic_installation = true,
       ensure_installed = {
-        'debugpy', -- Python
-        'pwa-node', -- Node / JS & TS
+        'python', -- Python
+        'js', -- Node / JS & TS
         'delve', -- Go
         'codelldb', -- C / C++
       },
@@ -97,7 +97,7 @@ return {
 
     require('dap.ext.vscode').load_launchjs(nil, {
       python = { 'python' },
-      ['pwa-node'] = { 'javascript', 'typescript' },
+      js = { 'javascript', 'typescript', 'javascriptreact', 'typescriptreact' },
       delve = { 'go' },
       codelldb = { 'c', 'cpp' },
     })
