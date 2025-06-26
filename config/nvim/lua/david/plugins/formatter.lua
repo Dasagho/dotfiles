@@ -32,9 +32,7 @@ return {
             'prettier.config.js',
             'package.json',
           },
-          prepend_args = function()
-            return { '--config', 'prettierrc.json' }
-          end,
+          prepend_args = { '--config', 'prettierrc.json' },
         },
       },
     }
