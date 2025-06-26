@@ -45,8 +45,15 @@ return { -- Autocompletion
     local luasnip = require 'luasnip'
     local lspkind = require 'lspkind'
 
-    -- Configure luasnip
-    luasnip.config.setup {}
+    -- Configure luasnip to be less aggressive
+    luasnip.config.setup {
+      -- Don't show snippets for single characters or very short text
+      store_selection_keys = '<Tab>',
+      -- Disable automatic snippet expansion
+      enable_autosnippets = false,
+      -- Be more selective about when to show snippets
+      update_events = { 'TextChanged', 'TextChangedI' },
+    }
 
     cmp.setup {
       snippet = {
@@ -55,27 +62,34 @@ return { -- Autocompletion
         end,
       },
       completion = {
-        completeopt = 'menu,menuone,noinsert',
+        completeopt = 'menu,menuone,noselect', -- Don't auto-select first item
       },
       mapping = cmp.mapping.preset.insert {
-        -- Select the [n]ext item
-        ['<C-n>'] = cmp.mapping.select_next_item(),
-        -- Select the [p]revious item
-        ['<C-p>'] = cmp.mapping.select_prev_item(),
+        -- VSCode-like behavior: Arrow keys to navigate
+        ['<Up>'] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Select },
+        ['<Down>'] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Select },
+
+        -- Keep Ctrl+n/p as alternatives
+        ['<C-n>'] = cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Insert },
+        ['<C-p>'] = cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Insert },
 
         -- Scroll the documentation window [b]ack / [f]orward
         ['<C-b>'] = cmp.mapping.scroll_docs(-4),
         ['<C-f>'] = cmp.mapping.scroll_docs(4),
 
-        -- Accept ([y]es) the completion.
-        --  This will auto-import if your LSP supports it.
-        --  This will expand snippets if the LSP sent a snippet.
-        ['<C-y>'] = cmp.mapping.confirm { select = true },
+        -- ESC to close completion menu
+        ['<C-e>'] = cmp.mapping.abort(),
 
-        -- If you prefer more traditional tab completion behavior
+        -- VSCode-like Tab behavior: Accept first item or selected item
         ['<Tab>'] = cmp.mapping(function(fallback)
           if cmp.visible() then
-            cmp.select_next_item()
+            -- If nothing is selected, select the first item, otherwise confirm selection
+            local entry = cmp.get_selected_entry()
+            if not entry then
+              cmp.select_next_item { behavior = cmp.SelectBehavior.Select }
+            else
+              cmp.confirm()
+            end
           elseif luasnip.expandable() then
             luasnip.expand()
           elseif luasnip.expand_or_locally_jumpable() then
@@ -85,9 +99,10 @@ return { -- Autocompletion
           end
         end, { 'i', 's' }),
 
+        -- Shift+Tab for snippet jumping or previous item
         ['<S-Tab>'] = cmp.mapping(function(fallback)
           if cmp.visible() then
-            cmp.select_prev_item()
+            cmp.select_prev_item { behavior = cmp.SelectBehavior.Select }
           elseif luasnip.locally_jumpable(-1) then
             luasnip.jump(-1)
           else
@@ -95,9 +110,20 @@ return { -- Autocompletion
           end
         end, { 'i', 's' }),
 
+        -- Enter to confirm only if explicitly selected (more VSCode-like)
+        ['<CR>'] = cmp.mapping {
+          i = function(fallback)
+            if cmp.visible() and cmp.get_active_entry() then
+              cmp.confirm { behavior = cmp.ConfirmBehavior.Replace, select = false }
+            else
+              fallback()
+            end
+          end,
+          s = cmp.mapping.confirm { select = true },
+          c = cmp.mapping.confirm { behavior = cmp.ConfirmBehavior.Replace, select = true },
+        },
+
         -- Manually trigger a completion from nvim-cmp.
-        --  Generally you don't need this, because nvim-cmp will display
-        --  completions whenever it has completion options available.
         ['<C-Space>'] = cmp.mapping.complete {},
       },
 
@@ -109,9 +135,18 @@ return { -- Autocompletion
           group_index = 0,
         },
         { name = 'nvim_lsp' },
-        { name = 'luasnip' },
         { name = 'path' },
       }, {
+        {
+          name = 'luasnip',
+          keyword_length = 3, -- Only show snippets after 3+ characters
+          max_item_count = 5, -- Limit snippet suggestions
+          entry_filter = function(entry, ctx)
+            -- Don't show snippets that are just the exact text typed
+            local typed_text = string.sub(ctx.cursor_before_line, ctx.cursor.col - ctx.offset)
+            return entry.completion_item.label ~= typed_text
+          end,
+        },
         { name = 'buffer' },
       }),
 
@@ -147,5 +182,15 @@ return { -- Autocompletion
         documentation = cmp.config.window.bordered(),
       },
     }
+
+    cmp.setup.filetype({ 'typescriptreact' }, {
+      sources = cmp.config.sources({
+        { name = 'nvim_lsp' },
+        { name = 'path' },
+      }, {
+        { name = 'buffer' },
+        -- Note: no luasnip here for these filetypes
+      }),
+    })
   end,
 }
