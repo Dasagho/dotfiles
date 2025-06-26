@@ -47,14 +47,14 @@ return {
       },
     },
     -- swap for cmp_nvim_lsp if you prefer
-    'saghen/blink.cmp',
+    -- 'saghen/blink.cmp',
   },
 
   config = function()
     ---------------------------------------------------------------------------
     --  Capabilities (cmp → lsp) ----------------------------------------------
     ---------------------------------------------------------------------------
-    local capabilities = require('blink.cmp').get_lsp_capabilities()
+    local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
     ---------------------------------------------------------------------------
     --  LSP server startup ----------------------------------------------------
