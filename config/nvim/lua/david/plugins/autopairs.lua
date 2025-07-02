@@ -1,13 +1,21 @@
 return {
   'windwp/nvim-autopairs',
   event = 'InsertEnter',
+  dependencies = {
+    {
+      'windwp/nvim-ts-autotag',
+      config = function()
+        require('nvim-ts-autotag').setup()
+      end,
+    },
+  },
   config = function()
     local autopairs = require 'nvim-autopairs'
     local Rule = require 'nvim-autopairs.rule'
     local cond = require 'nvim-autopairs.conds'
 
     autopairs.setup {
-      check_ts = true, -- Use treesitter
+      check_ts = true,
       ts_config = {
         lua = { 'string', 'source' },
         javascript = { 'string', 'template_string' },
@@ -22,16 +30,12 @@ return {
       enable_afterquote = true,
       enable_check_bracket_line = true,
       enable_bracket_in_quote = true,
-      enable_abbr = false,
       break_undo = true,
       check_comma = true,
       map_cr = true,
       map_bs = true,
-      map_c_h = false,
-      map_c_w = false,
     }
 
-    -- Add spaces inside braces for JavaScript/TypeScript/JSON
     autopairs.add_rules {
       Rule(' ', ' ')
         :with_pair(function(opts)
@@ -46,7 +50,6 @@ return {
           return vim.tbl_contains({ '(  )', '[  ]', '{  }' }, context)
         end),
 
-      -- Add extra rules for specific languages
       Rule('{ ', ' }')
         :with_pair(cond.none())
         :with_move(function(opts)
@@ -60,7 +63,6 @@ return {
         :only_cr(cond.none()),
     }
 
-    -- Integration with nvim-cmp
     local cmp_autopairs = require 'nvim-autopairs.completion.cmp'
     local cmp = require 'cmp'
     cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done())

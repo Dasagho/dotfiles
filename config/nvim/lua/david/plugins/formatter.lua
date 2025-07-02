@@ -21,20 +21,6 @@ return {
         javascriptreact = { 'prettier' },
         typescriptreact = { 'prettier' },
       },
-
-      formatters = {
-        prettier = {
-          require_cwd = true,
-          cwd = require('conform.util').root_file {
-            'prettierrc.json',
-            '.prettierrc',
-            '.prettierrc.json',
-            'prettier.config.js',
-            'package.json',
-          },
-          prepend_args = { '--config', 'prettierrc.json' },
-        },
-      },
     }
   end,
 }
