@@ -26,15 +26,13 @@ return {
     require('mason-nvim-dap').setup {
       automatic_installation = true,
       ensure_installed = {
-        'python', -- Python
-        'js', -- Node / JS & TS
-        'delve', -- Go
+        -- 'python', -- Python
+        'js', -- JavaScript
+        -- 'delve', -- Go
         'codelldb', -- C / C++
       },
     }
 
-    -- Dap UI setup
-    -- For more information, see |:help nvim-dap-ui|
     dapui.setup {
       -- Set icons to characters that are more likely to work in every terminal.
       --    Feel free to remove or use ones that you like more! :)
@@ -56,17 +54,6 @@ return {
     }
 
     require('nvim-dap-virtual-text').setup { commented = true }
-    -- Change breakpoint icons
-    -- vim.api.nvim_set_hl(0, 'DapBreak', { fg = '#e51400' })
-    -- vim.api.nvim_set_hl(0, 'DapStop', { fg = '#ffcc00' })
-    -- local breakpoint_icons = vim.g.have_nerd_font
-    --     and { Breakpoint = '', BreakpointCondition = '', BreakpointRejected = '', LogPoint = '', Stopped = '' }
-    --   or { Breakpoint = '●', BreakpointCondition = '⊜', BreakpointRejected = '⊘', LogPoint = '◆', Stopped = '⭔' }
-    -- for type, icon in pairs(breakpoint_icons) do
-    --   local tp = 'Dap' .. type
-    --   local hl = (type == 'Stopped') and 'DapStop' or 'DapBreak'
-    --   vim.fn.sign_define(tp, { text = icon, texthl = hl, numhl = hl })
-    -- end
 
     dap.listeners.after.event_initialized['dapui_config'] = function()
       dapui.open { reset = true }
@@ -95,32 +82,38 @@ return {
     local python = vim.fn.stdpath 'data' .. '/mason/packages/debugpy/venv/bin/python'
     require('dap-python').setup(python)
 
+    dap.adapters['pwa-node'] = {
+      type = 'server',
+      host = 'localhost',
+      port = '${port}',
+      executable = {
+        command = 'node',
+        args = { vim.fn.stdpath 'data' .. '/mason' .. '/packages/js-debug-adapter/js-debug/src/dapDebugServer.js', '${port}' },
+      },
+    }
+
     require('dap.ext.vscode').load_launchjs(nil, {
       python = { 'python' },
-      js = { 'javascript', 'typescript', 'javascriptreact', 'typescriptreact' },
+      ['pwa-node'] = { 'javascript', 'typescript', 'javascriptreact', 'typescriptreact' },
       delve = { 'go' },
       codelldb = { 'c', 'cpp' },
     })
 
     local map = vim.keymap.set
-    -- Core debug actions
     map('n', '<leader>dc', require('dap').continue, { desc = 'DAP: Continue/Start' })
     map('n', '<leader>dn', require('dap').step_over, { desc = 'DAP: Step Over' })
     map('n', '<leader>di', require('dap').step_into, { desc = 'DAP: Step Into' })
     map('n', '<leader>do', require('dap').step_out, { desc = 'DAP: Step Out' })
 
-    -- Breakpoints & friends
     map('n', '<leader>db', require('dap').toggle_breakpoint, { desc = 'DAP: Toggle Breakpoint' })
     map('n', '<leader>dB', function()
       require('dap').set_breakpoint(vim.fn.input 'Condition: ')
     end, { desc = 'DAP: Conditional Breakpoint' })
 
-    -- REPL / UI helpers
     map('n', '<leader>dr', require('dap').repl.open, { desc = 'DAP: Open REPL' })
     map('n', '<leader>du', require('dapui').toggle, { desc = 'DAP: Toggle UI' })
     map('n', '<leader>dl', require('telescope').extensions.dap.list_breakpoints, { desc = 'DAP: List Breakpoints' })
 
-    -- 🔚 Terminate debug session
     map('n', '<leader>dq', require('dap').terminate, { desc = 'DAP: Terminate Session' })
   end,
 }
