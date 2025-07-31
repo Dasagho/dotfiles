@@ -1,0 +1,83 @@
+[general]
+live_config_reload = true
+
+[terminal.shell]
+args = ["--cd ~", "-d Ubuntu"]
+program = 'C:\Windows\System32\wsl.exe'
+
+[font]
+size = 14.0
+normal = { family = "FiraMono Nerd Font Mono", style = "Regular"}
+
+[colors.primary]
+background = "#24273a"
+foreground = "#cad3f5"
+
+[colors.cursor]
+text = "#24273a"
+cursor = "#f4dbd6"
+
+[colors.selection]
+text = "#24273a"
+background = "#a5adcb"
+
+[colors.normal]
+black   = "#494d64"
+red     = "#ed8796"
+green   = "#a6da95"
+yellow  = "#eed49f"
+blue    = "#8aadf4"
+magenta = "#f5bde6"
+cyan    = "#8bd5ca"
+white   = "#b8c0e0"
+
+[colors.bright]
+black   = "#5b6078"
+red     = "#ed8796"
+green   = "#a6da95"
+yellow  = "#eed49f"
+blue    = "#8aadf4"
+magenta = "#f5bde6"
+cyan    = "#8bd5ca"
+white   = "#a5adcb"
+
+[colors.dim]
+black   = "#363a4f"
+red     = "#ba6b7e"
+green   = "#7dc276"
+yellow  = "#c4a56f"
+blue    = "#6b8dd6"
+magenta = "#977d8c"
+cyan    = "#6ec3ac"
+white   = "#8892bf"
+
+[cursor.style]
+shape = "Beam"
+blinking = "On"   # Cursor will blink
+
+
+[window]
+padding = { x = 5, y = 5 }
+decorations = "Full"
+startup_mode = "Maximized"
+dynamic_title = true
+
+
+
+[scrolling]
+history = 100000
+
+[mouse]
+hide_when_typing = true
+
+
+[[keyboard.bindings]]
+
+key = "V"
+mods = "Control|Shift"
+action = "Paste"
+
+[[keyboard.bindings]]
+key = "C"
+mods = "Control|Shift"
+action = "Copy"
