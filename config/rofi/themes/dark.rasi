@@ -1,0 +1,198 @@
+* {
+  /* Colors */
+  bg0: #1e1e2e;
+  bg1: #313244;
+  bg2: #45475a;
+  bg3: #585b70;
+  fg0: #cdd6f4;
+  fg1: #bac2de;
+  fg2: #a6adc8;
+  accent: #89b4fa;
+  urgent: #f38ba8;
+  warning: #fab387;
+  success: #a6e3a1;
+
+  /* Base */
+  background-color: transparent;
+  text-color: @fg0;
+  margin: 0;
+  padding: 0;
+  spacing: 0;
+}
+
+window {
+  location: center;
+  width: 600;
+  border-radius: 16;
+  border: 2;
+  border-color: @accent;
+  background-color: @bg0;
+  children: [ inputbar, listview, mode-switcher ];
+}
+
+inputbar {
+  padding: 16 20;
+  spacing: 8;
+  children: [ icon-search, entry ];
+  background-color: @bg1;
+  border-radius: 12 12 0 0;
+}
+
+icon-search {
+  expand: false;
+  filename: "search-symbolic";
+  size: 18;
+  vertical-align: 0.5;
+  text-color: @accent;
+}
+
+entry {
+  font: "JetBrains Mono Nerd Font 13";
+  placeholder: "Search...";
+  placeholder-color: @fg2;
+  vertical-align: 0.5;
+  text-color: @fg0;
+  cursor: text;
+}
+
+case-indicator {
+  spacing: 0;
+  text-color: @fg2;
+}
+
+listview {
+  padding: 8;
+  spacing: 4;
+  columns: 1;
+  lines: 12;
+  cycle: false;
+  dynamic: true;
+  layout: vertical;
+  background-color: @bg0;
+  border-radius: 0 0 12 12;
+}
+
+element {
+  padding: 8 12;
+  spacing: 12;
+  border-radius: 8;
+  orientation: horizontal;
+  children: [ element-icon, element-text ];
+  background-color: transparent;
+  text-color: @fg0;
+}
+
+element normal.normal {
+  background-color: transparent;
+  text-color: @fg0;
+}
+
+element selected.normal {
+  background-color: @accent;
+  text-color: @bg0;
+  border-radius: 8;
+}
+
+element alternate.normal {
+  background-color: transparent;
+  text-color: @fg0;
+}
+
+element normal.urgent {
+  background-color: @urgent;
+  text-color: @bg0;
+  border-radius: 8;
+}
+
+element selected.urgent {
+  background-color: @urgent;
+  text-color: @bg0;
+  border-radius: 8;
+}
+
+element normal.active {
+  background-color: @success;
+  text-color: @bg0;
+  border-radius: 8;
+}
+
+element selected.active {
+  background-color: @success;
+  text-color: @bg0;
+  border-radius: 8;
+}
+
+element-icon {
+  background-color: transparent;
+  text-color: inherit;
+  size: 24;
+  cursor: pointer;
+}
+
+element-text {
+  background-color: transparent;
+  text-color: inherit;
+  expand: true;
+  cursor: pointer;
+  vertical-align: 0.5;
+  horizontal-align: 0.0;
+  font: "JetBrains Mono Nerd Font 11";
+}
+
+mode-switcher {
+  spacing: 0;
+  border: 0;
+  background-color: @bg1;
+  border-radius: 0 0 12 12;
+  padding: 8;
+}
+
+button {
+  padding: 8 12;
+  background-color: transparent;
+  text-color: @fg1;
+  border-radius: 6;
+  horizontal-align: 0.5;
+  vertical-align: 0.5;
+  font: "JetBrains Mono Nerd Font 10";
+}
+
+button selected.normal {
+  background-color: @accent;
+  text-color: @bg0;
+  border-radius: 6;
+}
+
+scrollbar {
+  width: 4;
+  border: 0;
+  handle-color: @accent;
+  handle-width: 4;
+  padding: 0;
+  background-color: @bg2;
+  border-radius: 2;
+}
+
+message {
+  padding: 12;
+  border-radius: 12;
+  background-color: @bg1;
+  border: 1;
+  border-color: @bg3;
+}
+
+textbox {
+  padding: 8 12;
+  background-color: transparent;
+  text-color: @fg0;
+  vertical-align: 0.5;
+  horizontal-align: 0.0;
+}
+
+error-message {
+  padding: 12;
+  border-radius: 12;
+  background-color: @urgent;
+  border: 2;
+  border-color: @urgent;
+}
