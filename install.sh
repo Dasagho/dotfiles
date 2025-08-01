@@ -11,7 +11,7 @@ set -euo pipefail  # Exit on error, undefined vars, pipe failures
 # Tool versions (update these to control which versions to install)
 readonly KITTY_VERSION="0.32.2"
 readonly TEALDEER_VERSION="1.6.1"
-readonly NVIM_VERSION="0.9.5"
+readonly NVIM_VERSION="0.11.3"
 
 # Required system packages
 
