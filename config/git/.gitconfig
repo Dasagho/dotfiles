@@ -1,27 +1,85 @@
 [user]
-	email = damirsa2001@gmail.com
-	name = David
+  ; email = damirsa2001@gmail.com
+  ; name = David
+
 [init]
-	defaultBranch = main
+  defaultBranch = main
+
 [pull]
   rebase = true
-[safe]
-	directory = /home/david/.cache/paru/clone/auto-cpufreq/src/opt/auto-cpufreq/
-[alias]
-	st = status
-    	ci = commit
-    	br = branch
-    	co = checkout
-    	df = diff
-    	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
+
+[push]
+  default = simple
+  followTags = true
+
 [core]
-	editor = nvim
+  editor = nvim
+  autocrlf = false
+  filemode = true
+  precomposeUnicode = true
+  trustctime = false
+
 [diff]
-	tool = vimdiff
+  tool = meld
+  algorithm = patience
+  renames = copies
+  mnemonicPrefix = true
+
+[difftool]
+  prompt = false
+
+[difftool "meld"]
+  cmd = meld "$LOCAL" "$REMOTE"
+
 [merge]
-	tool = vimdiff
-	conflictstyle = diff3
+  tool = meld
+  conflictstyle = diff3
+  keepBackup = false
+
+[mergetool]
+  prompt = false
+  keepBackup = false
+
+[mergetool "meld"]
+  cmd = meld "$LOCAL" "$MERGED" "$REMOTE" --output "$MERGED"
+  trustExitCode = true
 [color]
-	ui = true
+  ui = true
+
+[color "branch"]
+  current = yellow reverse
+  local = yellow
+  remote = green
+
+[color "diff"]
+  meta = blue bold
+  frag = magenta bold
+  old = red bold
+  new = green bold
+
+[color "status"]
+  added = green
+  changed = red
+  untracked = cyan
+
 [help]
-	autocorrect = 1
+  autocorrect = 1
+
+[status]
+  showUntrackedFiles = all
+  submoduleSummary = true
+
+[log]
+  date = relative
+  decorate = short
+
+[rerere]
+  enabled = true
+
+# Conventional commits support (for future use)
+[commit]
+  template = ~/.gitmessage
+
+# Git hooks setup (for future integration)
+[core]
+  hooksPath = ~/.githooks
