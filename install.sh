@@ -15,7 +15,7 @@ readonly NVIM_VERSION="0.11.3"
 
 # Required system packages
 
-readonly REQUIRED_PACKAGES=("fish" "curl" "wget" "git" "tmux" "jq" "tar" "fc-cache")
+readonly REQUIRED_PACKAGES=("fish" "curl" "wget" "git" "tmux" "jq" "tar" "fc-cache" "batcat" "eza")
 
 # Directory setup
 readonly CONFIG_DIRECTORY="$HOME/.config"
