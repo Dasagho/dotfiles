@@ -1,9 +1,8 @@
 ---@type LazyPluginSpec
 return {
   'folke/twilight.nvim',
+  cmd = 'Twilight',
   config = function(_, opts)
-    vim.keymap.set('n', '<leader>tt', function()
-      require('twilight').toggle()
-    end, { desc = 'Toggle Twilight' })
+    vim.keymap.set('n', '<leader>tt', "<cmd>Twilight<CR>", { desc = 'Toggle Twilight' })
   end,
 }

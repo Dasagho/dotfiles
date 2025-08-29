@@ -9,7 +9,7 @@ return {
   ---------------------------------------------------------------------------
   {
     'folke/noice.nvim',
-    event = 'VeryLazy', -- Load after the UI is ready
+    event = { "BufReadPost", "BufWritePost", "BufNewFile" },
     dependencies = {
       'rcarriga/nvim-notify',
       'MunifTanjim/nui.nvim', -- Required UI toolkit
@@ -56,7 +56,7 @@ return {
   ---------------------------------------------------------------------------
   {
     'j-hui/fidget.nvim',
-    event = 'LspAttach', -- Spin up when the first LSP connects
+    event = { "BufReadPost", "BufWritePost", "BufNewFile" },
     opts = {
       -- Progress spinners ---------------------------------------------------
       progress = {

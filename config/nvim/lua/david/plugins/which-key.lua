@@ -1,7 +1,7 @@
 ---@type LazyPluginSpec
 return {
   'folke/which-key.nvim',
-  event = 'VimEnter',
+  cmd = 'WhichKey',
   config = function()
     require('which-key').setup {
       delay = 0,

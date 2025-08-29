@@ -22,7 +22,7 @@ M.languages = {
   },
 
   go = {
-    required = true,
+    required = false,
     lsp_name = 'gopls',
     lsp_settings = {},
     dap_adapter = 'delve',

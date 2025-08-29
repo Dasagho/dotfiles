@@ -1,3 +1,5 @@
+local M = {}
+
 local lsp_value = ''
 local formatter_value = ''
 local dap_value = ''
@@ -120,22 +122,22 @@ local function custom_tabline()
 
     if i == curr_tab then
       s = s
-        .. bg_hl_active
-        .. ' ' -- Usa color secundario activo para el fondo
-        .. icon -- Ícono con su color original
-        .. bg_hl_active
-        .. ' '
-        .. filename
-        .. ' '
+          .. bg_hl_active
+          .. ' ' -- Usa color secundario activo para el fondo
+          .. icon -- Ícono con su color original
+          .. bg_hl_active
+          .. ' '
+          .. filename
+          .. ' '
     else
       s = s
-        .. bg_hl_inactive
-        .. ' ' -- Usa color secundario inactivo para el fondo
-        .. icon
-        .. bg_hl_inactive
-        .. ' '
-        .. filename
-        .. ' '
+          .. bg_hl_inactive
+          .. ' ' -- Usa color secundario inactivo para el fondo
+          .. icon
+          .. bg_hl_inactive
+          .. ' '
+          .. filename
+          .. ' '
     end
 
     -- Separador entre pestañas
