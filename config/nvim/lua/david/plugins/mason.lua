@@ -1,5 +1,5 @@
 ---@type LazyPluginSpec
 return {
-  'sphamba/smear-cursor.nvim',
+  'williamboman/mason.nvim',
   opts = {},
 }

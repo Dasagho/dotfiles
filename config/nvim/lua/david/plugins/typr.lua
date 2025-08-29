@@ -1,6 +1,7 @@
+---@type LazyPluginSpec
 return {
-  "nvzone/typr",
-  dependencies = "nvzone/volt",
+  'nvzone/typr',
+  dependencies = 'nvzone/volt',
   opts = {},
-  cmd = { "Typr", "TyprStats" },
+  cmd = { 'Typr', 'TyprStats' },
 }

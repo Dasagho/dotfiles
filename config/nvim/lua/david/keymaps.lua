@@ -53,3 +53,4 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 })
 
 vim.keymap.set('n', '<leader>z', '<cmd> lua vim.wo.wrap = not vim.wo.wrap<CR>', { noremap = true, silent = true, desc = 'toggle wrap' })
+vim.api.nvim_set_keymap('n', '?', ':.-1j<CR>', { noremap = true })

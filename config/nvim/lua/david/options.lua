@@ -9,7 +9,7 @@ vim.g.maplocalleader = ' '
 -- ===============================
 vim.opt.tabstop = 2 -- Number of spaces a <Tab> counts for
 vim.opt.shiftwidth = 2 -- Indent width for >> and <<
-vim.opt.expandtab = false -- Convert tabs to spaces
+vim.opt.expandtab = true -- Convert tabs to spaces
 
 -- ===============================
 -- 🔢 Line numbers
@@ -50,7 +50,23 @@ vim.opt.listchars = { -- Set characters for tabs, trails, etc.
 -- 📋 Clipboard
 -- ===============================
 vim.schedule(function()
-  vim.o.clipboard = 'unnamedplus' -- Use system clipboard
+  vim.opt.clipboard = 'unnamedplus'
+
+  -- WSL2 specific clipboard configuration
+  if vim.fn.has 'wsl' == 1 then
+    vim.g.clipboard = {
+      name = 'WslClipboard',
+      copy = {
+        ['+'] = 'clip.exe',
+        ['*'] = 'clip.exe',
+      },
+      paste = {
+        ['+'] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+        ['*'] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
+      },
+      cache_enabled = 0,
+    }
+  end
 end)
 
 -- ===============================
@@ -96,3 +112,9 @@ vim.o.scrolloff = 12 -- Keep lines visible above/below cursor
 -- ✅ Confirm dialogs
 -- ===============================
 vim.o.confirm = true -- Prompt to save before quitting
+
+-- ===============================
+-- 🗂️ File types
+-- ===============================
+-- Set custom filetypes for specific filenames
+vim.filetype.add({ filename = { ["docker-compose.yml"] = "yaml.docker-compose", ["docker-compose.yaml"] = "yaml.docker-compose", ["compose.yml"] = "yaml.docker-compose", ["compose.yaml"] = "yaml.docker-compose", }, }) -- Example: docker-compose files as yaml.docker-compose

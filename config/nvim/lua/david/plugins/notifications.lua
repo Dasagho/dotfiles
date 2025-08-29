@@ -1,3 +1,4 @@
+---@type LazyPluginSpec
 -- Combines folke/noice.nvim and j-hui/fidget.nvim into a fault‑free, unified
 -- notification stack. Drop this file into your Lazy.nvim spec directory
 -- (e.g. ~/.config/nvim/lua/plugins) and restart Neovim.

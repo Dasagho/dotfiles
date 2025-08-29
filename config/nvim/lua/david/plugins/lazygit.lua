@@ -1,17 +1,18 @@
+---@type LazyPluginSpec
 return {
-  "kdheepak/lazygit.nvim",
+  'kdheepak/lazygit.nvim',
   lazy = true,
   -- Comandos que activarán la carga del plugin
   cmd = {
-    "LazyGit",
-    "LazyGitConfig",
-    "LazyGitCurrentFile",
-    "LazyGitFilter",
-    "LazyGitFilterCurrentFile",
+    'LazyGit',
+    'LazyGitConfig',
+    'LazyGitCurrentFile',
+    'LazyGitFilter',
+    'LazyGitFilterCurrentFile',
   },
   -- Dependencias necesarias
   dependencies = {
-    "nvim-lua/plenary.nvim",
+    'nvim-lua/plenary.nvim',
   },
   -- Configuración del plugin
   -- opts = {
@@ -34,7 +35,7 @@ return {
   -- },
   -- Atajos de teclado
   keys = {
-    { "<leader>gg", "<cmd>LazyGit<cr>", desc = "Abrir Lazygit" },
+    { '<leader>gg', '<cmd>LazyGit<cr>', desc = 'Abrir Lazygit' },
   },
   -- Configuración adicional
   config = function()
