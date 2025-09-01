@@ -1,5 +1,6 @@
 ---@type LazyPluginSpec
 return {
   'williamboman/mason.nvim',
-  opts = {},
+  dependencies = 'WhoIsSethDaniel/mason-tool-installer.nvim',
+  opts =  {},
 }

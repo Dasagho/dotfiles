@@ -1,18 +1,10 @@
 ---@type LazyPluginSpec
 return {
   'neovim/nvim-lspconfig',
-  lazy = true,
   event = { 'BufReadPre', 'BufNewFile' },
-  dependencies = {
-    {
-      'williamboman/mason-lspconfig.nvim',
-      config = function()
-        require('david.config.lsp').setup()
-      end,
-    },
-  },
-
   config = function()
+    require('david.config.lsp').setup()
+
     ---------------------------------------------------------------------------
     --  Key-maps (attach-time) ------------------------------------------------
     ---------------------------------------------------------------------------

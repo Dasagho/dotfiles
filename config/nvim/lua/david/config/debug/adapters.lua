@@ -107,28 +107,7 @@ end
 
 -- setup: register adapters via mason-nvim-dap handlers if possible; fallback to manual register
 function M.setup()
-  local ok, mason_nvim_dap = pcall(require, 'mason-nvim-dap')
-  local ensure_installed, handlers = build_mason_tables()
-  if ok and mason_nvim_dap then
-    mason_nvim_dap.setup {
-      automatic_installation = true,
-      ensure_installed = ensure_installed,
-      handlers = {
-        function(config)
-          mason_nvim_dap.default_setup(config)
-        end,
-      },
-    }
-  else
-    vim.notify('mason-nvim-dap not available; registering adapters manually', vim.log.levels.WARN)
-    for _, info in pairs(M.adapters) do
-      if type(info.register) == 'function' then
-        pcall(info.register)
-      end
-    end
-  end
-
-  -- ensure adapters are registered (in case of race)
+-- ensure adapters are registered (in case of race)
   for _, info in pairs(M.adapters) do
     if type(info.register) == 'function' then
       pcall(info.register)

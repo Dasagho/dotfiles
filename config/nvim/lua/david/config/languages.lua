@@ -1,9 +1,11 @@
 local M = {}
 
+M.ensure_installed_lsp = {}
 M.languages = {
   c_cpp = {
     required = true,
     lsp_name = 'clangd',
+    mason_lsp_id = 'clangd',
     lsp_settings = {},
     dap_adapter = 'codelldb',
     linter = 'cpplint',
@@ -14,6 +16,7 @@ M.languages = {
   python = {
     required = false,
     lsp_name = 'pyright',
+    mason_lsp_id = 'pyright',
     lsp_settings = {},
     dap_adapter = 'debugpy',
     linter = 'flake8',
@@ -24,6 +27,7 @@ M.languages = {
   go = {
     required = false,
     lsp_name = 'gopls',
+    mason_lsp_id = 'gopls',
     lsp_settings = {},
     dap_adapter = 'delve',
     formatter = { 'gofumpt', 'goimports', 'goimports-reviser', 'gomodifytags', 'golines' },
@@ -33,6 +37,7 @@ M.languages = {
   rust = {
     required = false,
     lsp_name = 'rust-analyzer',
+    mason_lsp_id = 'rust-analyzer',
     lsp_settings = {},
     dap_adapter = 'codelldb',
     linter = 'clippy',
@@ -43,6 +48,7 @@ M.languages = {
   javascript_typescript = {
     required = true,
     lsp_name = 'ts_ls',
+    mason_lsp_id = 'typescript-language-server',
     lsp_settings = {},
     dap_adapter = 'js',
     linter = 'eslint_d',
@@ -52,7 +58,6 @@ M.languages = {
 
   html = {
     required = false,
-    lsp_name = 'html',
     lsp_settings = {},
     formatter = 'prettier',
     filetype = { 'html' },
@@ -60,7 +65,6 @@ M.languages = {
 
   css = {
     required = false,
-    lsp_name = 'cssls',
     lsp_settings = {},
     formatter = 'prettier',
     filetype = { 'css', 'scss', 'less' },
@@ -68,7 +72,7 @@ M.languages = {
 
   json = {
     required = true,
-    lsp_name = 'jsonls',
+    lsp_name = 'json-lsp',
     lsp_settings = {
       on_new_config = function(new_config)
         new_config.lsp_settings.json.schemas = new_config.lsp_settings.json.schemas or {}
@@ -96,6 +100,7 @@ M.languages = {
   docker = {
     required = true,
     lsp_name = 'dockerls',
+    mason_lsp_id = 'docker-language-server',
     lsp_settings = {},
     linter = 'hadolint',
     filetype = { 'dockerfile' },
@@ -103,7 +108,8 @@ M.languages = {
 
   docker_compose = {
     required = true,
-    lsp_name = 'docker_compose_language_service',
+    lsp_name = 'docker-compose-language-service',
+    mason_lsp_id = 'docker-compose-language-service',
     lsp_settings = {},
     filetype = { 'yaml.docker-compose' },
   },
@@ -111,6 +117,7 @@ M.languages = {
   sql = {
     required = false,
     lsp_name = 'sqls',
+    mason_lsp_id = 'sqls',
     lsp_settings = {},
     formatter = 'sql-formatter',
     filetype = { 'sql', 'mysql', 'plsql' },
@@ -119,6 +126,7 @@ M.languages = {
   yaml = {
     required = true,
     lsp_name = 'yamlls',
+    mason_lsp_id = 'yaml-language-server',
     lsp_settings = {},
     formatter = 'prettier',
     filetype = { 'yaml', 'yml' },
@@ -127,6 +135,7 @@ M.languages = {
   bash = {
     required = true,
     lsp_name = 'bashls',
+    mason_lsp_id = 'bash-language-server',
     lsp_settings = {},
     linter = 'shellcheck',
     formatter = 'shfmt',
@@ -136,13 +145,14 @@ M.languages = {
   fish = {
     required = true,
     lsp_name = 'fish_lsp',
+    mason_lsp_id = 'fish-lsp',
     lsp_settings = {},
     filetype = { 'fish' },
   },
 
   emmet = {
     required = false,
-    lsp_name = 'emmet_ls',
+    lsp_name = 'emmet-ls',
     lsp_settings = {},
     filetype = { 'html', 'css' },
   },
@@ -160,6 +170,7 @@ M.languages = {
   lua = {
     required = true,
     lsp_name = 'lua_ls',
+    mason_lsp_id = 'lua-language-server',
     lsp_settings = {
       Lua = { completion = { callSnippet = 'Replace' } },
     },
@@ -167,5 +178,25 @@ M.languages = {
     filetype = { 'lua' },
   },
 }
+
+function M.ensure_installed()
+  local ensure_installed = {}
+
+  for _, lang in pairs(M.languages) do
+    if lang.required == true then
+      table.insert(M.ensure_installed_lsp, lang.lsp_name)
+      table.insert(ensure_installed, lang.mason_lsp_id)
+      table.insert(ensure_installed, lang.formatter)
+      table.insert(ensure_installed, lang.linter)
+      table.insert(ensure_installed, lang.dap_adapter)
+    end
+  end
+
+  require('mason-tool-installer').setup {
+    ensure_installed = ensure_installed,
+  }
+end
+
+M.ensure_installed()
 
 return M
