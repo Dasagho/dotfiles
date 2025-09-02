@@ -10,10 +10,6 @@ return {
     'LazyGitFilter',
     'LazyGitFilterCurrentFile',
   },
-  -- Dependencias necesarias
-  dependencies = {
-    'nvim-lua/plenary.nvim',
-  },
   -- Configuración del plugin
   -- opts = {
   --   -- Configuración de la ventana flotante

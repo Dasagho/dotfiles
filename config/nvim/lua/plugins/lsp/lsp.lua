@@ -3,7 +3,7 @@ return {
   'neovim/nvim-lspconfig',
   event = { 'BufReadPre', 'BufNewFile' },
   config = function()
-    require('david.config.lsp').setup()
+    require('config.lsp').setup()
 
     ---------------------------------------------------------------------------
     --  Key-maps (attach-time) ------------------------------------------------

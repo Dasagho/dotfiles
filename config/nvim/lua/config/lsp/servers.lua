@@ -1,7 +1,7 @@
 local M = {}
 
-local languages = require('david.config.languages').languages
-local ensure_installed = require('david.config.languages').ensure_installed_lsp
+local languages = require('config.languages').languages
+local ensure_installed = require('config.languages').ensure_installed_lsp
 
 function M.setupLspServers()
   local capabilities = require('cmp_nvim_lsp').default_capabilities()

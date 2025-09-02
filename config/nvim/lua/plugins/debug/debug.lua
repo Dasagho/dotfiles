@@ -13,6 +13,6 @@ return {
 
   cmd = { 'DapContinue', 'DapToggleBreakpoint', 'DapStepInto', 'DapStepOver', 'DapStepOut', 'DapTerminate', 'DapRestartFrame', 'DapToggleRepl' },
   config = function()
-    require('david.config.debug').setup()
+    require('config.debug').setup()
   end,
 }

@@ -7,18 +7,18 @@ function M.setup()
     return
   end
 
-  local adapters = require 'david.config.debug.adapters'
+  local adapters = require 'config.debug.adapters'
   adapters.setup()
 
-  local ui = require 'david.config.debug.ui'
+  local ui = require 'config.debug.ui'
   ui.setup()
 
   require('nvim-dap-virtual-text').setup { commented = true }
 
-  local keys = require 'david.config.debug.keys'
+  local keys = require 'config.debug.keys'
   keys.setup()
 
-  local launch = require 'david.config.debug.launch'
+  local launch = require 'config.debug.launch'
   launch.setup()
 end
 

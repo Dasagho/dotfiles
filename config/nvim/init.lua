@@ -1,5 +1,5 @@
-require 'david.options'
-require 'david.keymaps'
+require 'config.options'
+require 'config.keymaps'
 
 local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
@@ -14,9 +14,7 @@ end
 local rtp = vim.opt.rtp
 rtp:prepend(lazypath)
 
-require('lazy').setup({
-  { import = 'david.plugins' },
-}, {
+require('lazy').setup('plugins', {
   ui = {
     icons = vim.g.have_nerd_font and {} or {
       cmd = '⌘',

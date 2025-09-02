@@ -1,7 +1,7 @@
 local M = {}
 
 function M.setup()
-  local servers = require 'david.config.lsp.servers'
+  local servers = require 'config.lsp.servers'
   servers.setupLspServers()
 end
 
