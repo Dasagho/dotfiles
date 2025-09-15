@@ -1,21 +1,19 @@
----@type LazyPluginSpec
--- Combines folke/noice.nvim and j-hui/fidget.nvim into a fault‑free, unified
--- notification stack. Drop this file into your Lazy.nvim spec directory
--- (e.g. ~/.config/nvim/lua/plugins) and restart Neovim.
+---@type LazyPluginSpec[]
+-- Unified notifications & LSP progress: Noice (UI) + Fidget (spinners) + nvim-notify (backend)
 
 return {
   ---------------------------------------------------------------------------
-  -- 1️⃣  Modern message & notification UI -----------------------------------
+  -- 1) Modern messages / cmdline / LSP UI (uses nvim-notify as backend)
   ---------------------------------------------------------------------------
   {
     'folke/noice.nvim',
-    event = { "BufReadPost", "BufWritePost", "BufNewFile" },
+    event = 'VeryLazy', -- load early enough to catch UI/cmdline, but after startup
     dependencies = {
       'rcarriga/nvim-notify',
-      'MunifTanjim/nui.nvim', -- Required UI toolkit
+      'MunifTanjim/nui.nvim',
     },
     opts = {
-      -- Hand LSP progress to Fidget → no duplicate spinners
+      -- Hand LSP progress to Fidget → avoid duplicate spinners
       lsp = {
         progress = { enabled = false },
         override = {
@@ -25,15 +23,13 @@ return {
         },
       },
 
-      -- Notifications: use Noice’s built‑in “notify” view (nvim‑notify look‑alike)
+      -- Notifications: render via the "notify" view (nvim-notify look/feel)
       notify = {
         enabled = true,
-        view = 'notify', -- slide‑in float with icons & stages
-        throttle = 1000, -- merge identical msgs within 1s
-        merge = true,
+        view = 'notify',
+        merge = true, -- merge identical messages
       },
 
-      -- Helpful UI presets
       presets = {
         bottom_search = true,
         command_palette = true,
@@ -41,7 +37,7 @@ return {
         lsp_doc_border = true,
       },
 
-      -- Example route: silence the common LSP “No information available” spam
+      -- Example: silence noisy LSP info
       routes = {
         {
           filter = { event = 'notify', find = 'No information available' },
@@ -52,26 +48,40 @@ return {
   },
 
   ---------------------------------------------------------------------------
-  -- 2️⃣  LSP progress HUD & notify bridge ----------------------------------
+  -- 2) LSP progress HUD / spinners (no notify override)
   ---------------------------------------------------------------------------
   {
     'j-hui/fidget.nvim',
-    event = { "BufReadPost", "BufWritePost", "BufNewFile" },
+    event = 'LspAttach', -- start when an LSP actually attaches
     opts = {
-      -- Progress spinners ---------------------------------------------------
       progress = {
-        poll_rate = 120, -- ms between updates
-        suppress_on_insert = true, -- hide while typing
+        poll_rate = 120,
+        suppress_on_insert = true,
         display = {
-          progress_icon = { pattern = 'dots', period = 1 }, -- fallback to core CLI spinner,
-          done_icon = '', -- Nerd‑font checkmark
+          -- keep schema simple & compatible
+          progress_icon = { 'dots' },
+          done_icon = '',
         },
       },
-
-      -- Notifications -------------------------------------------------------
       notification = {
-        override_vim_notify = false, -- Noice already owns vim.notify
+        override_vim_notify = false, -- Noice owns vim.notify path
       },
     },
+  },
+
+  ---------------------------------------------------------------------------
+  -- 3) Notify backend (used by Noice's notify view)
+  ---------------------------------------------------------------------------
+  {
+    'rcarriga/nvim-notify',
+    lazy = true, -- pulled in by Noice dependency
+    opts = {
+      stages = 'fade_in_slide_out',
+      timeout = 1000,
+      top_down = false,
+      render = 'default',
+    },
+    -- NOTE: Do NOT set `vim.notify = require("notify")` here.
+    -- We let Noice route notifications to this backend.
   },
 }

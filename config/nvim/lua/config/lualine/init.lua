@@ -19,68 +19,84 @@ local function update_lsp_clients()
   lsp_value = '󱘖 ' .. table.concat(client_names, ',')
 end
 
+-- ===== Formatter (conform.nvim) =====
 local function update_formatter()
-  local found, conform = pcall(require, 'conform')
-  if not found then
+  local spec = require('lazy.core.config').plugins['conform.nvim']
+  if not (spec and spec._ and spec._.loaded) then
+    formatter_value = ''
+    return
+  end
+
+  local conform = package.loaded['conform']
+  if not conform then
     formatter_value = ''
     return
   end
 
   local formatters = conform.list_formatters(0)
-  if #formatters == 0 then
+  if not formatters or #formatters == 0 then
     formatter_value = ''
     return
   end
 
-  local formatter_names = {}
+  local names = {}
   for _, f in ipairs(formatters) do
-    table.insert(formatter_names, f.name)
+    names[#names + 1] = f.name
   end
-  formatter_value = '󰉢 ' .. table.concat(formatter_names, ',')
+  formatter_value = '󰉢 ' .. table.concat(names, ',')
 end
 
+-- ===== DAP adapter (nvim-dap) =====
 local function update_dap_adapter()
-  local found, dap = pcall(require, 'dap')
-  if not found then
+  local spec = require('lazy.core.config').plugins['nvim-dap']
+  if not (spec and spec._ and spec._.loaded) then
     dap_value = ''
     return
   end
 
-  local filetype = vim.bo.filetype
-  if not filetype then
+  local dap = package.loaded['dap']
+  if not dap then
     dap_value = ''
     return
   end
 
-  local configs = dap.configurations[filetype]
+  local ft = vim.bo.filetype
+  if not ft or ft == '' then
+    dap_value = ''
+    return
+  end
+
+  local configs = dap.configurations[ft]
   if not configs or #configs == 0 then
     dap_value = ''
     return
   end
 
   local adapter_type = configs[1].type
-  if not adapter_type then
-    dap_value = ''
-    return
-  end
-
-  dap_value = ' ' .. adapter_type
+  dap_value = adapter_type and (' ' .. adapter_type) or ''
 end
 
+-- ===== Linter (nvim-lint) =====
 local function update_linter()
-  local found, lint = pcall(require, 'lint')
-  if not found then
+  local spec = require('lazy.core.config').plugins['nvim-lint']
+  if not (spec and spec._ and spec._.loaded) then
     linter_value = ''
     return
   end
 
-  local filetype = vim.bo.filetype
-  if not filetype or filetype == '' then
+  local lint = package.loaded['lint']
+  if not lint then
     linter_value = ''
     return
   end
 
-  local linters = lint.linters_by_ft[filetype]
+  local ft = vim.bo.filetype
+  if not ft or ft == '' then
+    linter_value = ''
+    return
+  end
+
+  local linters = lint.linters_by_ft[ft]
   if not linters or #linters == 0 then
     linter_value = ''
     return
@@ -122,22 +138,22 @@ local function custom_tabline()
 
     if i == curr_tab then
       s = s
-          .. bg_hl_active
-          .. ' ' -- Usa color secundario activo para el fondo
-          .. icon -- Ícono con su color original
-          .. bg_hl_active
-          .. ' '
-          .. filename
-          .. ' '
+        .. bg_hl_active
+        .. ' ' -- Usa color secundario activo para el fondo
+        .. icon -- Ícono con su color original
+        .. bg_hl_active
+        .. ' '
+        .. filename
+        .. ' '
     else
       s = s
-          .. bg_hl_inactive
-          .. ' ' -- Usa color secundario inactivo para el fondo
-          .. icon
-          .. bg_hl_inactive
-          .. ' '
-          .. filename
-          .. ' '
+        .. bg_hl_inactive
+        .. ' ' -- Usa color secundario inactivo para el fondo
+        .. icon
+        .. bg_hl_inactive
+        .. ' '
+        .. filename
+        .. ' '
     end
 
     -- Separador entre pestañas
@@ -161,7 +177,7 @@ vim.api.nvim_create_autocmd('LspDetach', {
   end,
 })
 
-vim.api.nvim_create_autocmd('BufRead', {
+vim.api.nvim_create_autocmd('BufEnter', {
   callback = function()
     update_lsp_clients()
     update_formatter()

@@ -5,4 +5,5 @@ return {
   require 'plugins.editor.zenmode',
   require 'plugins.editor.autopairs',
   require 'plugins.editor.highlight',
+  require 'plugins.editor.nvim-ts-autotag',
 }
