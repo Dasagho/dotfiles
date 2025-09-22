@@ -10,7 +10,7 @@ M.languages = {
     dap_adapter = 'codelldb',
     linter = 'cpplint',
     formatter = 'clang-format',
-    ft = { 'c', 'cpp', 'h', 'hpp' },
+    filetype = { 'c', 'cpp', 'h', 'hpp' },
   },
 
   python = {
@@ -25,7 +25,7 @@ M.languages = {
   },
 
   go = {
-    required = false,
+    required = true,
     lsp_name = 'gopls',
     mason_lsp_id = 'gopls',
     lsp_settings = {},
@@ -179,16 +179,28 @@ M.languages = {
   },
 }
 
+local function insert_if_exists(target_table, value)
+  if value then
+    if type(value) == 'table' then
+      for _, v in ipairs(value) do
+        table.insert(target_table, v)
+      end
+    else
+      table.insert(target_table, value)
+    end
+  end
+end
+
 function M.ensure_installed()
   local ensure_installed = {}
 
   for _, lang in pairs(M.languages) do
     if lang.required == true then
-      table.insert(M.ensure_installed_lsp, lang.lsp_name)
-      table.insert(ensure_installed, lang.mason_lsp_id)
-      table.insert(ensure_installed, lang.formatter)
-      table.insert(ensure_installed, lang.linter)
-      table.insert(ensure_installed, lang.dap_adapter)
+      insert_if_exists(M.ensure_installed_lsp, lang.lsp_name)
+      insert_if_exists(ensure_installed, lang.mason_lsp_id)
+      insert_if_exists(ensure_installed, lang.formatter)
+      insert_if_exists(ensure_installed, lang.linter)
+      insert_if_exists(ensure_installed, lang.dap_adapter)
     end
   end
 
