@@ -51,7 +51,7 @@ M.languages = {
     mason_lsp_id = 'typescript-language-server',
     lsp_settings = {},
     dap_adapter = 'js',
-    linter = 'eslint_d',
+    linter = 'eslint',
     formatter = 'prettier',
     filetype = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' },
   },

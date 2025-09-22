@@ -24,12 +24,7 @@ return {
       eslint_config_path,
     }
 
-    lint.linters_by_ft = {
-      javascript = { 'eslint' },
-      javascriptreact = { 'eslint' },
-      -- typescript = { 'eslint' },
-      -- typescriptreact = { 'eslint' },
-    }
+    lint.linters_by_ft = require('config.lint').linters
 
     local lint_augroup = vim.api.nvim_create_augroup('lint', { clear = true })
 
