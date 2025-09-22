@@ -29,12 +29,12 @@ end
 # Hack for issue #19:
 # Create version of sdkman-init that doesn't export any environment variables.
 # Refresh if sdkman-init changed.
-if  begin       not test -f "$__fish_sdkman_noexport_init";
-          or    env test "$__fish_sdkman_init" -nt "$__fish_sdkman_noexport_init"
+if begin
+        not test -f "$__fish_sdkman_noexport_init"
+        or env test "$__fish_sdkman_init" -nt "$__fish_sdkman_noexport_init"
     end
     mkdir -p (dirname $__fish_sdkman_noexport_init)
-    sed -E -e 's/^(\s*).*(export|to_path).*$/\1:/g' "$__fish_sdkman_init" \
-        > "$__fish_sdkman_noexport_init"
+    sed -E -e 's/^(\s*).*(export|to_path).*$/\1:/g' "$__fish_sdkman_init" >"$__fish_sdkman_noexport_init"
 end
 
 # Runs the given command in bash, capturing some side effects
@@ -69,10 +69,10 @@ function __fish_sdkman_run_in_bash
             set value (string join "=" $parts[2..-1])
 
             switch "$var"
-            case "PATH"
-                # Special treatment: need fish list instead
-                # of colon-separated list.
-                set value (string split : "$value")
+                case PATH
+                    # Special treatment: need fish list instead
+                    # of colon-separated list.
+                    set value (string split : "$value")
             end
 
             if test -n value
