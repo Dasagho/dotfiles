@@ -12,6 +12,11 @@ return {
         }
       end,
     }
+    conform.formatters.black = {
+      prepend_args = function()
+        return { '--line-length', '79' }
+      end,
+    }
 
     conform.setup {
       format_on_save = function(bufnr)

@@ -14,7 +14,7 @@ M.languages = {
   },
 
   python = {
-    required = false,
+    required = true,
     lsp_name = 'pyright',
     mason_lsp_id = 'pyright',
     lsp_settings = {},
@@ -51,7 +51,7 @@ M.languages = {
     mason_lsp_id = 'typescript-language-server',
     lsp_settings = {},
     dap_adapter = 'js',
-    linter = 'eslint',
+    linter = 'eslint_d',
     formatter = 'prettier',
     filetype = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' },
   },

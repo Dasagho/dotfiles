@@ -8,11 +8,11 @@ return {
     local eslint_cli = eslint_path .. '/node_modules/.bin/eslint'
     local eslint_config_path = eslint_path .. '/.eslintrc.json'
 
-    lint.linters.eslint = lint.linters.eslint or {}
-    lint.linters.eslint.cmd = eslint_cli
-    lint.linters.eslint.args = lint.linters.eslint.args or {}
+    lint.linters.eslint_d = lint.linters.eslint_d or {}
+    lint.linters.eslint_d.cmd = eslint_cli
+    lint.linters.eslint_d.args = lint.linters.eslint_d.args or {}
 
-    lint.linters.eslint.args = {
+    lint.linters.eslint_d.args = {
       '--format',
       'json',
       '--stdin',
