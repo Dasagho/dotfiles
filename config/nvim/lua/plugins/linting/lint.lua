@@ -28,19 +28,63 @@ return {
 
     local lint_augroup = vim.api.nvim_create_augroup('lint', { clear = true })
 
+    -- Utility function for checking enable state
+    local function lint_enabled(bufnr)
+      if vim.g.disable_lint or vim.b[bufnr].disable_lint then
+        return false
+      end
+      return true
+    end
+
+    -- Only lint if enabled
     vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWritePost', 'InsertLeave' }, {
       group = lint_augroup,
-      callback = function()
-        lint.try_lint()
+      callback = function(args)
+        if lint_enabled(args.buf) then
+          lint.try_lint()
+        end
       end,
     })
 
     vim.keymap.set('n', '<leader>ll', function()
-      lint.try_lint()
+      if lint_enabled(0) then
+        lint.try_lint()
+      else
+        vim.notify('Linting is disabled for this buffer', vim.log.levels.INFO)
+      end
     end, { desc = 'Trigger linting for current file' })
 
     vim.keymap.set('n', '<leader>lf', function()
       vim.cmd('!' .. eslint_cli .. ' --config ' .. eslint_config_path .. ' ' .. vim.api.nvim_buf_get_name(0) .. ' --fix')
     end, { desc = 'Format using custom eslint' })
+
+    vim.keymap.set('n', '<leader>ld', function()
+      vim.cmd('LintDisable!')
+    end, { desc = 'Disable linter' })
+
+    vim.keymap.set('n', '<leader>le', function()
+      vim.cmd('LintEnable')
+    end, { desc = 'Enable linter' })
+
+    vim.api.nvim_create_user_command('LintDisable', function(args)
+      if args.bang then
+        vim.b.disable_lint = true
+        vim.diagnostic.reset(nil, 0)
+      else
+        vim.g.disable_lint = true
+        vim.diagnostic.reset(nil, 0)
+      end
+    end, {
+      desc = 'Disable auto-lint',
+      bang = true,
+    })
+
+    vim.api.nvim_create_user_command('LintEnable', function()
+      vim.b.disable_lint = false
+      vim.g.disable_lint = false
+      lint.try_lint()
+    end, {
+      desc = 'Re-enable auto-lint',
+    })
   end,
 }
