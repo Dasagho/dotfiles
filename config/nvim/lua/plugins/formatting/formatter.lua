@@ -4,6 +4,7 @@ return {
   event = { 'BufWritePre' },
   config = function()
     local conform = require 'conform'
+
     conform.formatters.prettier = {
       prepend_args = function()
         return {
@@ -19,6 +20,7 @@ return {
     }
 
     conform.setup {
+      formatters_by_ft = require('config.formatter').formatters,
       format_on_save = function(bufnr)
         if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
           return
@@ -33,7 +35,6 @@ return {
 
     vim.api.nvim_create_user_command('FormatDisable', function(args)
       if args.bang then
-        -- FormatDisable! will disable formatting just for this buffer
         vim.b.disable_autoformat = true
       else
         vim.g.disable_autoformat = true
