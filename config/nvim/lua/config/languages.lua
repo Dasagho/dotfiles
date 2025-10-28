@@ -73,19 +73,8 @@ M.languages = {
   json = {
     required = true,
     lsp_name = 'json-lsp',
-    lsp_settings = {
-      on_new_config = function(new_config)
-        new_config.lsp_settings.json.schemas = new_config.lsp_settings.json.schemas or {}
-        vim.list_extend(new_config.lsp_settings.json.schemas, require('schemastore').json.schemas())
-      end,
-      lsp_settings = {
-        json = {
-          format = { enable = true },
-          validate = { enable = true },
-        },
-      },
-    },
-    formatter = 'prettier',
+    lsp_settings = {},
+    formatter = 'jq',
     filetype = { 'json', 'jsonc' },
   },
 
@@ -209,6 +198,16 @@ function M.ensure_installed()
   }
 end
 
-M.ensure_installed()
+function M.filetypes_enabled()
+  local filetypes = {}
+
+  for _, lang in pairs(M.languages) do
+    if lang.required == true then
+      insert_if_exists(filetypes, lang.filetype)
+    end
+  end
+
+  return filetypes
+end
 
 return M

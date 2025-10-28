@@ -4,9 +4,9 @@ return {
   event = { 'BufReadPre', 'BufNewFile' },
   config = function()
     local lint = require 'lint'
-    local eslint_path = '/home/dsaleh/.local/share/eslint_with_node_14'
+    local eslint_path = '/home/dsaleh/.local/share/eslint_next'
     local eslint_cli = eslint_path .. '/node_modules/.bin/eslint'
-    local eslint_config_path = eslint_path .. '/.eslintrc.json'
+    local eslint_config_path = eslint_path .. '/.eslintrc.js'
 
     lint.linters.eslint_d = lint.linters.eslint_d or {}
     lint.linters.eslint_d.cmd = eslint_cli
@@ -36,13 +36,16 @@ return {
       return true
     end
 
-    -- Only lint if enabled
-    vim.api.nvim_create_autocmd({ 'BufEnter', 'BufWritePost', 'InsertLeave' }, {
+    vim.api.nvim_create_autocmd('BufWritePost', {
       group = lint_augroup,
-      callback = function(args)
-        if lint_enabled(args.buf) then
+      callback = function()
+        -- Debounce using Neovim's own scheduler (simple & safe)
+        vim.defer_fn(function()
+          if not lint_enabled(0) then
+            return
+          end
           lint.try_lint()
-        end
+        end, 120) -- ~120ms debounce
       end,
     })
 
@@ -59,11 +62,11 @@ return {
     end, { desc = 'Format using custom eslint' })
 
     vim.keymap.set('n', '<leader>ld', function()
-      vim.cmd('LintDisable!')
+      vim.cmd 'LintDisable!'
     end, { desc = 'Disable linter' })
 
     vim.keymap.set('n', '<leader>le', function()
-      vim.cmd('LintEnable')
+      vim.cmd 'LintEnable'
     end, { desc = 'Enable linter' })
 
     vim.api.nvim_create_user_command('LintDisable', function(args)

@@ -49,25 +49,7 @@ vim.opt.listchars = { -- Set characters for tabs, trails, etc.
 -- ===============================
 -- 📋 Clipboard
 -- ===============================
-vim.schedule(function()
-  vim.opt.clipboard = 'unnamedplus'
-
-  -- WSL2 specific clipboard configuration
-  if vim.fn.has 'wsl' == 1 then
-    vim.g.clipboard = {
-      name = 'WslClipboard',
-      copy = {
-        ['+'] = 'clip.exe',
-        ['*'] = 'clip.exe',
-      },
-      paste = {
-        ['+'] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
-        ['*'] = 'powershell.exe -c [Console]::Out.Write($(Get-Clipboard -Raw).tostring().replace("`r", ""))',
-      },
-      cache_enabled = 0,
-    }
-  end
-end)
+vim.opt.clipboard = 'unnamedplus'
 
 -- ===============================
 -- ✍️ Text behavior
@@ -117,4 +99,11 @@ vim.o.confirm = true -- Prompt to save before quitting
 -- 🗂️ File types
 -- ===============================
 -- Set custom filetypes for specific filenames
-vim.filetype.add({ filename = { ["docker-compose.yml"] = "yaml.docker-compose", ["docker-compose.yaml"] = "yaml.docker-compose", ["compose.yml"] = "yaml.docker-compose", ["compose.yaml"] = "yaml.docker-compose", }, }) -- Example: docker-compose files as yaml.docker-compose
+vim.filetype.add {
+  filename = {
+    ['docker-compose.yml'] = 'yaml.docker-compose',
+    ['docker-compose.yaml'] = 'yaml.docker-compose',
+    ['compose.yml'] = 'yaml.docker-compose',
+    ['compose.yaml'] = 'yaml.docker-compose',
+  },
+} -- Example: docker-compose files as yaml.docker-compose

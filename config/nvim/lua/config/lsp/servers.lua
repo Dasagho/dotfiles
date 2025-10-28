@@ -12,8 +12,10 @@ function M.setupLspServers()
     },
   }
 
+  local flags = { debounce_text_changes = 150 }
+
   for _, lang in pairs(languages) do
-    local settings = vim.tbl_deep_extend('force', lang.lsp_settings, { capabilities = capabilities })
+    local settings = vim.tbl_deep_extend('force', lang.lsp_settings, { capabilities = capabilities, flags = flags, single_file_support = false })
     if lang.lsp_name ~= nil then
       vim.lsp.config(lang.lsp_name, settings)
       vim.lsp.enable(lang.lsp_name)

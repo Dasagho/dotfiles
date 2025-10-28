@@ -27,15 +27,6 @@ vim.keymap.set('n', '<A-j>', '<C-w><C-j>', { desc = 'Move focus to the lower win
 vim.keymap.set('n', '<A-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
 
 -- ===============================
--- 🔄 Window movement (disabled, note only)
--- ===============================
--- NOTE: Some terminals have colliding keymaps or cannot send these keycodes
--- vim.keymap.set("n", "<C-S-h>", "<C-w>H", { desc = "Move window to the left" })
--- vim.keymap.set("n", "<C-S-l>", "<C-w>L", { desc = "Move window to the right" })
--- vim.keymap.set("n", "<C-S-j>", "<C-w>J", { desc = "Move window to the lower" })
--- vim.keymap.set("n", "<C-S-k>", "<C-w>K", { desc = "Move window to the upper" })
-
--- ===============================
 -- 📑 Tab navigation (Shift)
 -- ===============================
 vim.keymap.set('n', '<S-h>', 'gT', { desc = 'Go to previous tab' })
