@@ -26,4 +26,7 @@ if status is-interactive
 
     # Development servers
     alias serve='python -m http.server'
+
+    # Gitlab CLI
+    alias gclone="glab api projects --paginate | jq -r '.[] | [.path_with_namespace,.ssh_url_to_repo] | @tsv' | fzf --with-nth 1 -d '\t' | cut -f2 | xargs glab repo clone"
 end
