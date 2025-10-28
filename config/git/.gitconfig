@@ -8,78 +8,38 @@
 [pull]
   rebase = true
 
-[push]
-  default = simple
-  followTags = true
-
+[alias]
+  st = status
+  ci = commit
+  br = branch
+  co = checkout
+  df = diff
+  lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset'
 [core]
   editor = nvim
-  autocrlf = false
-  filemode = true
-  precomposeUnicode = true
-  trustctime = false
-
-[diff]
-  tool = meld
-  algorithm = patience
-  renames = copies
-  mnemonicPrefix = true
-
-[difftool]
-  prompt = false
-
-[difftool "meld"]
-  cmd = meld "$LOCAL" "$REMOTE"
 
 [merge]
   tool = meld
-  conflictstyle = diff3
-  keepBackup = false
-
-[mergetool]
-  prompt = false
-  keepBackup = false
 
 [mergetool "meld"]
-  cmd = meld "$LOCAL" "$MERGED" "$REMOTE" --output "$MERGED"
+  cmd = meld "$LOCAL" "$BASE" "$REMOTE" --output="$MERGED"
+  trustExitCode = false
+
+[mergetool]
+  keepBackup = false
+
+[diff]
+  tool = meld
+
+[difftool "meld"]
+  cmd = meld "$LOCAL" "$REMOTE"
   trustExitCode = true
+
 [color]
   ui = true
 
-[color "branch"]
-  current = yellow reverse
-  local = yellow
-  remote = green
-
-[color "diff"]
-  meta = blue bold
-  frag = magenta bold
-  old = red bold
-  new = green bold
-
-[color "status"]
-  added = green
-  changed = red
-  untracked = cyan
-
 [help]
   autocorrect = 1
-
-[status]
-  showUntrackedFiles = all
-  submoduleSummary = true
-
-[log]
-  date = relative
-  decorate = short
-
-[rerere]
-  enabled = true
-
-# Conventional commits support (for future use)
-[commit]
-  template = ~/.gitmessage
-
-# Git hooks setup (for future integration)
-[core]
-  hooksPath = ~/.githooks
+[credential "http://gitlabnew.depid.local"]
+	helper = 
+	helper = !/usr/bin/glab auth git-credential
